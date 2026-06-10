@@ -1,0 +1,36 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "Z:\\SAEFinale\\s2.04-05\\Aqui\u0027Alerts C#\\Aqui\u0027Alerts\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D9DDAB6B-88AD-46A2-B80F-4A4C0F82F171}|Aqui\u0027Alerts.csproj|z:\\saefinale\\s2.04-05\\aqui\u0027alerts c#\\aqui\u0027alerts\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{D9DDAB6B-88AD-46A2-B80F-4A4C0F82F171}|Aqui\u0027Alerts.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Form1.cs [Design]",
+              "DocumentMoniker": "Z:\\SAEFinale\\s2.04-05\\Aqui\u0027Alerts C#\\Aqui\u0027Alerts\\Form1.cs",
+              "RelativeDocumentMoniker": "Form1.cs",
+              "ToolTip": "Z:\\SAEFinale\\s2.04-05\\Aqui\u0027Alerts C#\\Aqui\u0027Alerts\\Form1.cs [Design]",
+              "RelativeToolTip": "Form1.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-10T07:16:14.859Z",
+              "EditorCaption": " [Design]"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
