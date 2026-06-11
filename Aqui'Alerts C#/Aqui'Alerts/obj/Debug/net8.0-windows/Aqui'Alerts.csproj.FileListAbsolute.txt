@@ -17,3 +17,4 @@ Z:\Documents\Projet\s2.04-05\Aqui'Alerts C#\Aqui'Alerts\obj\Debug\net8.0-windows
 Z:\Documents\Projet\s2.04-05\Aqui'Alerts C#\Aqui'Alerts\obj\Debug\net8.0-windows\Aqui'Alerts.pdb
 Z:\Documents\Projet\s2.04-05\Aqui'Alerts C#\Aqui'Alerts\obj\Debug\net8.0-windows\Aqui'Alerts.genruntimeconfig.cache
 Z:\Documents\Projet\s2.04-05\Aqui'Alerts C#\Aqui'Alerts\obj\Debug\net8.0-windows\ref\Aqui'Alerts.dll
+Z:\Documents\Projet\s2.04-05\Aqui'Alerts C#\Aqui'Alerts\obj\Debug\net8.0-windows\Aqui_Alerts.defaultPreset.resources

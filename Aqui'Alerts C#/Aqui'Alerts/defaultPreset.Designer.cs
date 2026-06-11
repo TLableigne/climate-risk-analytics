@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             titleAquiAlerts = new Label();
-            pictureBox1 = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            pictureLogo = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureLogo).BeginInit();
             SuspendLayout();
             // 
             // titleAquiAlerts
@@ -44,24 +44,24 @@
             titleAquiAlerts.TabIndex = 9;
             titleAquiAlerts.Text = "Aqui'Alerts";
             // 
-            // pictureBox1
+            // pictureLogo
             // 
-            pictureBox1.Location = new Point(703, 353);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(85, 85);
-            pictureBox1.TabIndex = 10;
-            pictureBox1.TabStop = false;
+            pictureLogo.Location = new Point(703, 353);
+            pictureLogo.Name = "pictureLogo";
+            pictureLogo.Size = new Size(85, 85);
+            pictureLogo.TabIndex = 10;
+            pictureLogo.TabStop = false;
             // 
             // defaultPreset
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(pictureBox1);
+            Controls.Add(pictureLogo);
             Controls.Add(titleAquiAlerts);
             Name = "defaultPreset";
             Text = "Aqui'Alerts";
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -69,6 +69,6 @@
         #endregion
 
         private Label titleAquiAlerts;
-        private PictureBox pictureBox1;
+        private PictureBox pictureLogo;
     }
 }

@@ -31,9 +31,9 @@
             titleAquiAlerts = new Label();
             informationLabel = new Label();
             pictureGraphic = new PictureBox();
-            pictureBox1 = new PictureBox();
+            pictureLogo = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureGraphic).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureLogo).BeginInit();
             SuspendLayout();
             // 
             // titleAquiAlerts
@@ -65,27 +65,27 @@
             pictureGraphic.TabIndex = 10;
             pictureGraphic.TabStop = false;
             // 
-            // pictureBox1
+            // pictureLogo
             // 
-            pictureBox1.Location = new Point(703, 353);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(85, 85);
-            pictureBox1.TabIndex = 11;
-            pictureBox1.TabStop = false;
+            pictureLogo.Location = new Point(703, 353);
+            pictureLogo.Name = "pictureLogo";
+            pictureLogo.Size = new Size(85, 85);
+            pictureLogo.TabIndex = 11;
+            pictureLogo.TabStop = false;
             // 
             // showGraphic
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(pictureBox1);
+            Controls.Add(pictureLogo);
             Controls.Add(pictureGraphic);
             Controls.Add(informationLabel);
             Controls.Add(titleAquiAlerts);
             Name = "showGraphic";
             Text = "Aqui'Alerts";
             ((System.ComponentModel.ISupportInitialize)pictureGraphic).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -95,6 +95,6 @@
         private Label titleAquiAlerts;
         private Label informationLabel;
         private PictureBox pictureGraphic;
-        private PictureBox pictureBox1;
+        private PictureBox pictureLogo;
     }
 }

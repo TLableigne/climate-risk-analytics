@@ -17,6 +17,8 @@ namespace Aqui_Alerts
             InitializeComponent();
             this.BackColor = Constants.colorBackground;
             titleAquiAlerts.BackColor = Constants.colorBackground;
+            pictureLogo.Image = Image.FromFile(@"\\iut.bx\Etudiants\Home\lleguennec\Documents\Projet\s2.04-05\Images\Logo.png");
+            pictureLogo.SizeMode = PictureBoxSizeMode.Zoom;
             /*
              * Test permettant d'afficher correctement une image avec la pictureBox
             pictureGraphic.Image = Image.FromFile(@"\\iut.bx\Etudiants\Home\lleguennec\Downloads\Gemini_Generated_Image_nr6hqxnr6hqxnr6h.png");

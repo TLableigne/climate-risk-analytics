@@ -36,8 +36,8 @@
             dataset2 = new ComboBox();
             graphicType = new ComboBox();
             titleAquiAlerts = new Label();
-            pictureBox1 = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            pictureLogo = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureLogo).BeginInit();
             SuspendLayout();
             // 
             // defaultButton
@@ -120,13 +120,13 @@
             titleAquiAlerts.TabIndex = 7;
             titleAquiAlerts.Text = "Aqui'Alerts";
             // 
-            // pictureBox1
+            // pictureLogo
             // 
-            pictureBox1.Location = new Point(703, 353);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(85, 85);
-            pictureBox1.TabIndex = 8;
-            pictureBox1.TabStop = false;
+            pictureLogo.Location = new Point(703, 353);
+            pictureLogo.Name = "pictureLogo";
+            pictureLogo.Size = new Size(85, 85);
+            pictureLogo.TabIndex = 8;
+            pictureLogo.TabStop = false;
             // 
             // AquiAlerts
             // 
@@ -134,7 +134,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(800, 450);
-            Controls.Add(pictureBox1);
+            Controls.Add(pictureLogo);
             Controls.Add(titleAquiAlerts);
             Controls.Add(graphicType);
             Controls.Add(dataset2);
@@ -145,7 +145,7 @@
             Controls.Add(defaultButton);
             Name = "AquiAlerts";
             Text = "AquiAlerts";
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -160,6 +160,6 @@
         private ComboBox dataset2;
         private ComboBox graphicType;
         private Label titleAquiAlerts;
-        private PictureBox pictureBox1;
+        private PictureBox pictureLogo;
     }
 }
