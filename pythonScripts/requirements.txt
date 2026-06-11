@@ -1,0 +1,26 @@
+# Les indispensables
+numpy
+scipy
+jupyter
+
+# Les interactions
+itables==2.5.0          # Non obligatoire (meilleure représentation de DataFrame + interactivité)
+                        # itables > 2.5 seem not compatible with geopandas
+ipympl
+
+# Sequence 5
+pymssql
+SQLAlchemy
+pandas
+
+# Sequence 6
+matplotlib
+seaborn
+plotly
+
+# Sequence 7
+geopandas       # itables ne semble pas fonctionner avec geopandas en 206-stab
+narwhals        # Salle 206-stab uniquement ?
+
+# Sequence bonus (8)
+scikit-learn
