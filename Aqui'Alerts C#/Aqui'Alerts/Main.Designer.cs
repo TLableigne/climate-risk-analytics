@@ -37,6 +37,11 @@
             graphicType = new ComboBox();
             titleAquiAlerts = new Label();
             pictureLogo = new PictureBox();
+            buttonQuit = new Button();
+            buttonPreSet1 = new Button();
+            buttonPreSet2 = new Button();
+            buttonPreSet3 = new Button();
+            buttonPreSet4 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureLogo).BeginInit();
             SuspendLayout();
             // 
@@ -58,6 +63,7 @@
             customButton.TabIndex = 1;
             customButton.Text = "Personnalisé";
             customButton.UseVisualStyleBackColor = true;
+            customButton.Click += customButton_Click;
             // 
             // showGraphicButton
             // 
@@ -102,7 +108,7 @@
             // graphicType
             // 
             graphicType.FormattingEnabled = true;
-            graphicType.Items.AddRange(new object[] { "Option A", "Option B", "Option C" });
+            graphicType.Items.AddRange(new object[] { "Nuage de points", "Boite à moustaches" });
             graphicType.Location = new Point(482, 166);
             graphicType.Name = "graphicType";
             graphicType.Size = new Size(258, 23);
@@ -128,12 +134,67 @@
             pictureLogo.TabIndex = 8;
             pictureLogo.TabStop = false;
             // 
+            // buttonQuit
+            // 
+            buttonQuit.Location = new Point(12, 379);
+            buttonQuit.Name = "buttonQuit";
+            buttonQuit.Size = new Size(112, 50);
+            buttonQuit.TabIndex = 17;
+            buttonQuit.Text = "Quitter";
+            buttonQuit.UseVisualStyleBackColor = true;
+            buttonQuit.Click += buttonQuit_Click;
+            // 
+            // buttonPreSet1
+            // 
+            buttonPreSet1.Location = new Point(211, 94);
+            buttonPreSet1.Name = "buttonPreSet1";
+            buttonPreSet1.Size = new Size(117, 77);
+            buttonPreSet1.TabIndex = 18;
+            buttonPreSet1.Text = "Test de données 1";
+            buttonPreSet1.UseVisualStyleBackColor = true;
+            buttonPreSet1.Click += buttonPreSet1_Click;
+            // 
+            // buttonPreSet2
+            // 
+            buttonPreSet2.Location = new Point(476, 94);
+            buttonPreSet2.Name = "buttonPreSet2";
+            buttonPreSet2.Size = new Size(117, 77);
+            buttonPreSet2.TabIndex = 19;
+            buttonPreSet2.Text = "Test de données 2";
+            buttonPreSet2.UseVisualStyleBackColor = true;
+            buttonPreSet2.Click += buttonPreSet2_Click;
+            // 
+            // buttonPreSet3
+            // 
+            buttonPreSet3.Location = new Point(211, 272);
+            buttonPreSet3.Name = "buttonPreSet3";
+            buttonPreSet3.Size = new Size(117, 77);
+            buttonPreSet3.TabIndex = 20;
+            buttonPreSet3.Text = "Test de données 3";
+            buttonPreSet3.UseVisualStyleBackColor = true;
+            buttonPreSet3.Click += buttonPreSet3_Click;
+            // 
+            // buttonPreSet4
+            // 
+            buttonPreSet4.Location = new Point(476, 272);
+            buttonPreSet4.Name = "buttonPreSet4";
+            buttonPreSet4.Size = new Size(117, 77);
+            buttonPreSet4.TabIndex = 21;
+            buttonPreSet4.Text = "Test de données 4";
+            buttonPreSet4.UseVisualStyleBackColor = true;
+            buttonPreSet4.Click += buttonPreSet4_Click;
+            // 
             // AquiAlerts
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(800, 450);
+            Controls.Add(buttonPreSet4);
+            Controls.Add(buttonPreSet3);
+            Controls.Add(buttonPreSet2);
+            Controls.Add(buttonPreSet1);
+            Controls.Add(buttonQuit);
             Controls.Add(pictureLogo);
             Controls.Add(titleAquiAlerts);
             Controls.Add(graphicType);
@@ -161,5 +222,10 @@
         private ComboBox graphicType;
         private Label titleAquiAlerts;
         private PictureBox pictureLogo;
+        private Button buttonQuit;
+        private Button buttonPreSet1;
+        private Button buttonPreSet2;
+        private Button buttonPreSet3;
+        private Button buttonPreSet4;
     }
 }

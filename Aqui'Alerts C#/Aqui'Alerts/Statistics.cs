@@ -17,8 +17,13 @@ namespace Aqui_Alerts
             InitializeComponent();
             this.BackColor = Constants.colorBackground;
             titleAquiAlerts.BackColor = Constants.colorBackground;
-            pictureLogo.Image = Image.FromFile(@"\\iut.bx\Etudiants\Home\lleguennec\Documents\Projet\s2.04-05\Images\Logo.png");
+            pictureLogo.Image = Image.FromFile(@"\\iut.bx\Etudiants\Home\lleguennec\Documents\Projet\s2.04-05\pythonScripts\img\Logo.png");
             pictureLogo.SizeMode = PictureBoxSizeMode.Zoom;
+        }
+
+        private void buttonQuit_Click(object sender, EventArgs e)
+        {
+            Dispose();
         }
     }
 }
