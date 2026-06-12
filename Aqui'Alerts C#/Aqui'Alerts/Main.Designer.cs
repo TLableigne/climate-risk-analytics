@@ -42,6 +42,9 @@
             buttonPreSet2 = new Button();
             buttonPreSet3 = new Button();
             buttonPreSet4 = new Button();
+            importButton = new Button();
+            separatorTextBox = new TextBox();
+            separatorLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureLogo).BeginInit();
             SuspendLayout();
             // 
@@ -184,12 +187,41 @@
             buttonPreSet4.UseVisualStyleBackColor = true;
             buttonPreSet4.Click += buttonPreSet4_Click;
             // 
+            // importButton
+            // 
+            importButton.Location = new Point(401, 24);
+            importButton.Name = "importButton";
+            importButton.Size = new Size(94, 29);
+            importButton.TabIndex = 22;
+            importButton.Text = "Importer";
+            importButton.UseVisualStyleBackColor = true;
+            importButton.Click += importButton_Click;
+            // 
+            // separatorTextBox
+            // 
+            separatorTextBox.Location = new Point(273, 28);
+            separatorTextBox.Name = "separatorTextBox";
+            separatorTextBox.Size = new Size(100, 23);
+            separatorTextBox.TabIndex = 23;
+            // 
+            // separatorLabel
+            // 
+            separatorLabel.AutoSize = true;
+            separatorLabel.Location = new Point(198, 31);
+            separatorLabel.Name = "separatorLabel";
+            separatorLabel.Size = new Size(69, 15);
+            separatorLabel.TabIndex = 24;
+            separatorLabel.Text = "Séparateur :";
+            // 
             // AquiAlerts
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(800, 450);
+            Controls.Add(separatorLabel);
+            Controls.Add(separatorTextBox);
+            Controls.Add(importButton);
             Controls.Add(buttonPreSet4);
             Controls.Add(buttonPreSet3);
             Controls.Add(buttonPreSet2);
@@ -227,5 +259,8 @@
         private Button buttonPreSet2;
         private Button buttonPreSet3;
         private Button buttonPreSet4;
+        private Button importButton;
+        private TextBox separatorTextBox;
+        private Label separatorLabel;
     }
 }

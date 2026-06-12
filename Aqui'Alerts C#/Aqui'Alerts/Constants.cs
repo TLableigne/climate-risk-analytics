@@ -11,7 +11,9 @@ namespace Aqui_Alerts
     {
         public static readonly Color colorBackground = Color.FromArgb(255, 120, 2, 30);
         public static string pythonScriptPath = @"\\iut.bx\Etudiants\Home\lleguennec\Documents\Projet\s2.04-05\pythonScripts";
-        public static string scriptName = "choosenGraph.py";
+        public static string scriptGraphicName = "choosenGraph.py";
+        public static string scriptImportName = "temp.py";
+        public static string scriptDataSetCollectionName = @"\\iut.bx\Etudiants\Home\lleguennec\Documents\Projet\s2.04-05\pythonScripts\dataSetCollection.py";
         public static Process GenerateCmd()
         {
             Process cmd = new Process();
@@ -38,6 +40,28 @@ namespace Aqui_Alerts
             if (!string.IsNullOrEmpty(erreursPython) && erreursPython.Contains("Traceback"))
             {
                 MessageBox.Show("Le script Python a rencontré une erreur :\n\n" + erreursPython, "Erreur Python", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public static string CmdActionWithOutput(string command)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = "cmd.exe",
+                Arguments = $"/c {command}",
+                RedirectStandardOutput = true, 
+                RedirectStandardError = true,
+                UseShellExecute = false,       
+                CreateNoWindow = true
+            };
+
+            using (Process process = new Process { StartInfo = startInfo })
+            {
+                process.Start();
+                string output = process.StandardOutput.ReadToEnd();
+
+                process.WaitForExit();
+                return output;
             }
         }
     }
