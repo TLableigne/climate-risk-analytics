@@ -18,6 +18,10 @@ matplotlib
 seaborn
 plotly
 
+kaleido
+ 
+ 
+
 # Sequence 7
 geopandas       # itables ne semble pas fonctionner avec geopandas en 206-stab
 narwhals        # Salle 206-stab uniquement ?
