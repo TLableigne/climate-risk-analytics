@@ -1,21 +1,20 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-import numpy as np
 
-def draw_scatterplot(X: pd.DataFrame):
-    x = []
-    y = []
+def draw_scatterplot(X1, X2):
 
-    col1 = X.columns[0]
-    col2 = X.columns[1]
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    
+    Xs = [X1, X2]
+    for i, X in enumerate(Xs):
 
-    for index, row in X.iterrows():
-        x.append(row[col1])
-        y.append(row[col2])
+        col1 = X.columns[0]
+        col2 = X.columns[1]
 
-    plt.figure() 
-    plt.scatter(x, y)
-    plt.xlabel(col1)
-    plt.ylabel(col2)
+        ax = axes[i]
+        ax.scatter(X[col1], X[col2], alpha=1)
+        # ax.set_xlabel(col1)
+        # ax.set_ylabel(col2)
+        ax.grid()
     plt.savefig('img/Graph.png')
     plt.close()
