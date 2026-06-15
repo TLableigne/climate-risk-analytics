@@ -1,4 +1,4 @@
-using System;
+    using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -32,11 +32,70 @@ namespace Aqui_Alerts
 
         private void showGraphicButton_Click(object sender, EventArgs e)
         {
-            string argumentCSV = dataset1.Text; //  "testDataSet.csv";
-            string argumentTypeGraph = graphicType.Text; //  "Boite à moustaches";
+            string typLib1 = dataset1.Text;
+            string typLib2 = dataset2.Text;
+            string argumentTypeGraph = graphicType.Text;
+
+            if (string.IsNullOrEmpty(typLib1) || string.IsNullOrEmpty(typLib2) || string.IsNullOrEmpty(argumentTypeGraph))
+            {
+                MessageBox.Show("Veuillez sélectionner les deux datasets et un type de graphique");
+                return;
+            }
+            
+            string commandeGetQueries = $"python \"Z:\\Documents\\Projet\\s2.04-05\\pythonScripts\\get_queries.py\" \"{typLib1}\" \"{typLib2}\" \"{argumentTypeGraph}\"";
+            ProcessStartInfo psi = new ProcessStartInfo("cmd.exe")
+            {
+                Arguments = $"/c {commandeGetQueries}",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+            Process p = new Process { StartInfo = psi };
+            p.Start();
+            string stdout = p.StandardOutput.ReadToEnd();
+            string stderr = p.StandardError.ReadToEnd();
+            p.WaitForExit();                                   
+
+            string rawOutput = Constants.CmdActionWithOutput(commandeGetQueries);
+
+            if (string.IsNullOrEmpty(rawOutput) || rawOutput.StartsWith("ERREUR"))
+            {
+                MessageBox.Show("Erreur lors de la génération des requêtes :\n" + rawOutput, "Erreur");
+                return;
+            }
+
+            string[] parts = rawOutput.Split(new[] { "|||" }, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length < 2)
+            {
+                MessageBox.Show("Impossible de récupérer les deux requêtes SQL.\n\n" + rawOutput, "Erreur");
+                return;
+            }
+
+            string query1 = parts[0].Replace("\r", " ").Replace("\n", " ").Trim();
+            string query2 = parts[1].Replace("\r", " ").Replace("\n", " ").Trim();
+
             Process cmd = Constants.GenerateCmd();
-            string commandePython = $"python {Constants.scriptGraphicName} \"{argumentCSV}\" \"{argumentTypeGraph}\"";
+            string commandePython = $"python {Constants.scriptGraphicName} ETD \"{query1}\" \"{query2}\" \"{argumentTypeGraph}\"";
             Constants.CmdAction(commandePython, cmd);
+
+
+
+            ProcessStartInfo psi2 = new ProcessStartInfo("cmd.exe")
+            {
+                Arguments = $"/c python {Constants.scriptGraphicName} ETD \"{query1}\" \"{query2}\" \"{argumentTypeGraph}\"",
+                WorkingDirectory = Constants.pythonScriptPath,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+            Process p2 = new Process { StartInfo = psi2 };
+            p2.Start();
+            string stdout2 = p2.StandardOutput.ReadToEnd();
+            string stderr2 = p2.StandardError.ReadToEnd();
+            p2.WaitForExit();
+
             showGraphic graphicInterface = new showGraphic();
             graphicInterface.ShowDialog();
         }
@@ -131,6 +190,8 @@ namespace Aqui_Alerts
             graphicInterface.ShowDialog();
         }
 
+        
+
         private void importButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -143,12 +204,28 @@ namespace Aqui_Alerts
                 string commandePythonComboBox = $"python {Constants.scriptDataSetCollectionName}";
                 string rawOutput = Constants.CmdActionWithOutput(commandePythonComboBox);
                 List<string> dataSetCollection = new List<string>(rawOutput.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries));
+                
                 dataset1.Items.Clear();
                 foreach (string dataset in dataSetCollection)
                 {
                     dataset1.Items.Add(dataset);
                 }
+            }
+        }
 
+        private void dataset1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string typLibSelected = dataset1.Text;
+            string commandePython = $"python \"Z:\\Documents\\Projet\\s2.04-05\\pythonScripts\\commonDataset.py\" \"{typLibSelected}\"";
+            string rawOutput = Constants.CmdActionWithOutput(commandePython);
+
+            List<string> coherentDatasets = new List<string>(
+                rawOutput.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+            );            
+            dataset2.Items.Clear();
+            foreach (string ds in coherentDatasets)
+            {
+                dataset2.Items.Add(ds);
             }
         }
     }

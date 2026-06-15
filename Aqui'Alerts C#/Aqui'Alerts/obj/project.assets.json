@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "\\\\iut.bx\\Etudiants\\Home\\lleguennec\\Documents\\Projet\\s2.04-05\\Aqui'Alerts C#\\Aqui'Alerts\\Aqui'Alerts.csproj",
+      "projectUniqueName": "Z:\\Documents\\Projet\\s2.04-05\\Aqui'Alerts C#\\Aqui'Alerts\\Aqui'Alerts.csproj",
       "projectName": "Aqui'Alerts",
-      "projectPath": "\\\\iut.bx\\Etudiants\\Home\\lleguennec\\Documents\\Projet\\s2.04-05\\Aqui'Alerts C#\\Aqui'Alerts\\Aqui'Alerts.csproj",
+      "projectPath": "Z:\\Documents\\Projet\\s2.04-05\\Aqui'Alerts C#\\Aqui'Alerts\\Aqui'Alerts.csproj",
       "packagesPath": "C:\\Users\\lleguennec\\.nuget\\packages\\",
-      "outputPath": "\\\\iut.bx\\Etudiants\\Home\\lleguennec\\Documents\\Projet\\s2.04-05\\Aqui'Alerts C#\\Aqui'Alerts\\obj\\",
+      "outputPath": "Z:\\Documents\\Projet\\s2.04-05\\Aqui'Alerts C#\\Aqui'Alerts\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
