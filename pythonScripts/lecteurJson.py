@@ -2,6 +2,12 @@ import json
 import glob
 import csv
 
+dataCommune = ["lib_commune", "NOM COMMUNE"]
+dataDepartement = ["lib_zone", "NOM DEPARTEMENT"]
+dataRisque = ["lib_risque_jo", "lib_risques", "LIBELLE RISQUE 1", "LIBELLE RISQUE 2", "LIBELLE RISQUE 3", "lib_pol"]
+dataDateDeb = ["dat_deb", "dat_program_deb", "PRESCRIPTION", "date_ech"]
+dataDateFin = ["dat_fin", "dat_program_fin", "ANNULATION", "ABROGATION", "date_dif"]
+
 def donnee():
     with open("conf.json", "r") as f:
         data = json.load(f)
@@ -33,24 +39,8 @@ def donnee():
             i = i + 1
 
     return resFinal
-"""
-def ajoutJson():
-    with open("conf.json", "r") as f:
-        data = json.load(f)
 
-    for fichier in glob.glob("*.csv"):
 
-        if fichier in data and data[fichier]:
-            print(fichier + " : good")
-
-        else:
-            print(fichier + " : add")
-
-            data[fichier] = {}
-            
-            with open("conf.json", "w") as f:
-                json.dump(data, f, indent=4, ensure_ascii=False)
-  """  
 
 def ajoutJson():
     with open("conf.json", "r") as f:
@@ -73,9 +63,9 @@ def ajoutJson():
                     lecteur = csv.reader(csv_file, delimiter=";")
                     colonnes = next(lecteur)
 
-                    lieu = any(c in ["lib_commune", "NOM COMMUNE", "lib_zone", "NOM DEPARTEMENT"] for c in colonnes)
-                    risque  = any(c in ["lib_risque_jo", "lib_risques", "LIBELLE RISQUE 1", "LIBELLE RISQUE 2", "LIBELLE RISQUE 3", "lib_pol"] for c in colonnes)
-                    date    = any(c in ["dat_deb", "dat_fin", "dat_program_deb", "dat_program_fin", "PRESCRIPTION", "ANNULATION", "ABROGATION", "date_ech", "date_dif"] for c in colonnes)
+                    lieu = any(c in dataCommune or dataDepartement for c in colonnes)
+                    risque  = any(c in dataRisque for c in colonnes)
+                    date = any(c in dataDateDeb for c in colonnes)
                     
                     if lieu and risque and date:
                         data[fichier] = {}
@@ -83,19 +73,19 @@ def ajoutJson():
                     for col in colonnes:
                         col = col.strip()
 
-                        if col in ["lib_commune", "NOM COMMUNE"]:
+                        if col in dataCommune:
                             data[fichier][col] = "[T_COMMUNE_COM:COM_LIB]"
 
-                        elif col in ["lib_zone", "NOM DEPARTEMENT"]:
+                        elif col in dataDepartement:
                             data[fichier][col] = "[T_DEPARTEMENT_DEP:DEP_LIB]"
                         
                         elif col in ["lib_risque_jo", "lib_risques", "LIBELLE RISQUE 1", "LIBELLE RISQUE 2", "LIBELLE RISQUE 3", "lib_pol"]:
                             data[fichier][col] = "[T_TYPE_TYP:TYP_LIB]"
                             
-                        elif col in ["dat_deb", "dat_program_deb", "PRESCRIPTION", "date_ech"]:
+                        elif col in dataDateDeb:
                             data[fichier][col] = "[T_DATE_DAT:DAT_DATE_DEB]"
                             
-                        elif col in ["dat_fin", "dat_program_fin", "ANNULATION", "ABROGATION", "date_dif"]:
+                        elif col in dataDateFin:
                             data[fichier][col] = "[T_DATE_DAT:DATE_DUREE]"
                             
                         else: 
