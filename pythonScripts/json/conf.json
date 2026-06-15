@@ -1,44 +1,34 @@
 {
-  "catnat_gaspar.csv": {
-    "lib_commune": "[T_COMMUNE_COM:COM_LIB]",
-    "lib_risque_jo": "[T_TYPE_TYP:TYP_LIB]",
-    "dat_deb": "[T_DATE_DAT:DAT_DATE_DEB]",
-    "dat_fin": "[T_DATE_DAT:DATE_DUREE]"
-  },
-  "azi_gaspar.csv": {
-    "lib_commune": "[T_COMMUNE_COM:COM_LIB]",
-    "lib_risques": "[T_TYPE_TYP:TYP_LIB]",
-    "dat_program_deb": "[T_DATE_DAT:DAT_DATE_DEB]",
-    "dat_program_fin": "[T_DATE_DAT:DATE_DUREE]"
-  },
-  "pprm_gaspar.csv": {
-    "NOM DEPARTEMENT": "[T_DEPARTEMENT_DEP:DEP_LIB]",
-    "NOM COMMUNE": "[T_COMMUNE_COM:COM_LIB]",
-    "LIBELLE RISQUE 1": "[T_TYPE_TYP:TYP_LIB]",
-    "LIBELLE RISQUE 2": "[T_TYPE_TYP:TYP_LIB]",
-    "LIBELLE RISQUE 3": "[T_TYPE_TYP:TYP_LIB]",
-    "PRESCRIPTION": "[T_DATE_DAT:DAT_DATE_DEB]",
-    "ANNULATION": "[T_DATE_DAT:DATE_DUREE]",
-    "ABROGATION": "[T_DATE_DAT:DATE_DUREE]"
-  },
-  "pprn_gaspar.csv": {
-    "NOM DEPARTEMENT": "[T_DEPARTEMENT_DEP:DEP_LIB]",
-    "NOM COMMUNE": "[T_COMMUNE_COM:COM_LIB]",
-    "LIBELLE RISQUE 1": "[T_TYPE_TYP:TYP_LIB]",
-    "LIBELLE RISQUE 2": "[T_TYPE_TYP:TYP_LIB]",
-    "LIBELLE RISQUE 3": "[T_TYPE_TYP:TYP_LIB]",
-    "PRESCRIPTION": "[T_DATE_DAT:DAT_DATE_DEB]",
-    "ANNULATION": "[T_DATE_DAT:DATE_DUREE]",
-    "ABROGATION": "[T_DATE_DAT:DATE_DUREE]"
-  },
-  "pprt_gaspar.csv": {
-    "NOM DEPARTEMENT": "[T_DEPARTEMENT_DEP:DEP_LIB]",
-    "NOM COMMUNE": "[T_COMMUNE_COM:COM_LIB]",
-    "LIBELLE RISQUE 1": "[T_TYPE_TYP:TYP_LIB]",
-    "LIBELLE RISQUE 2": "[T_TYPE_TYP:TYP_LIB]",
-    "LIBELLE RISQUE 3": "[T_TYPE_TYP:TYP_LIB]",
-    "PRESCRIPTION": "[T_DATE_DAT:DAT_DATE_DEB]",
-    "ANNULATION": "[T_DATE_DAT:DATE_DUREE]",
-    "ABROGATION": "[T_DATE_DAT:DATE_DUREE]"
-  }
+    "csv/catnat_gaspar.csv": {
+        "lib_commune": "[T_COMMUNE_COM:COM_LIB]",
+        "lib_risque_jo": "[T_TYPE_TYP:TYP_LIB]",
+        "dat_deb": "[T_DATE_DAT:DAT_DATE_DEB]",
+        "dat_fin": "[T_DATE_DAT:DATE_DUREE]"
+    },
+    "csv/pprm_gaspar.csv": {
+        "NOM DEPARTEMENT": "[T_DEPARTEMENT_DEP:DEP_LIB]",
+        "NOM COMMUNE": "[T_COMMUNE_COM:COM_LIB]",
+        "LIBELLE RISQUE 1": "[T_TYPE_TYP:TYP_LIB]",
+        "LIBELLE RISQUE 2": "[T_TYPE_TYP:TYP_LIB]",
+        "LIBELLE RISQUE 3": "[T_TYPE_TYP:TYP_LIB]",
+        "PRESCRIPTION": "[T_DATE_DAT:DAT_DATE_DEB]",
+        "ANNULATION": "[T_DATE_DAT:DATE_DUREE]",
+        "ABROGATION": "[T_DATE_DAT:DATE_DUREE]"
+    },
+    "csv/pprn_gaspar.csv": {
+        "NOM DEPARTEMENT": "[T_DEPARTEMENT_DEP:DEP_LIB]",
+        "NOM COMMUNE": "[T_COMMUNE_COM:COM_LIB]",
+        "LIBELLE RISQUE 1": "[T_TYPE_TYP:TYP_LIB]",
+        "LIBELLE RISQUE 2": "[T_TYPE_TYP:TYP_LIB]",
+        "LIBELLE RISQUE 3": "[T_TYPE_TYP:TYP_LIB]",
+        "PRESCRIPTION": "[T_DATE_DAT:DAT_DATE_DEB]",
+        "ANNULATION": "[T_DATE_DAT:DATE_DUREE]",
+        "ABROGATION": "[T_DATE_DAT:DATE_DUREE]"
+    },
+    "csv/azi_gaspar.csv": {
+        "list_risques": "[T_TYPE_TYP:TYP_LIB]",
+        "lib_commune": "[T_COMMUNE_COM:COM_LIB]",
+        "dat_program_deb": "[T_DATE_DAT:DAT_DATE_DEB]",
+        "dat_program_fin": "[T_DATE_DAT:DATE_DUREE]"
+    }
 }

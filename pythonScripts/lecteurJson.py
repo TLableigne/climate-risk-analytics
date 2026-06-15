@@ -4,12 +4,12 @@ import csv
 
 dataCommune = ["lib_commune", "NOM COMMUNE", "NOM_USUEL"]
 dataDepartement = ["lib_zone", "NOM DEPARTEMENT"]
-dataRisque = ["lib_risque_jo", "lib_risques", "LIBELLE RISQUE 1", "LIBELLE RISQUE 2", "LIBELLE RISQUE 3", "lib_pol"]
+dataRisque = ["list_risques","lib_risque_jo", "lib_risques", "LIBELLE RISQUE 1", "LIBELLE RISQUE 2", "LIBELLE RISQUE 3", "lib_pol"]
 dataDateDeb = ["dat_deb", "dat_program_deb", "PRESCRIPTION", "date_ech", "AAAAMMJJ"]
 dataDateFin = ["dat_fin", "dat_program_fin", "ANNULATION", "ABROGATION", "date_dif"]
 
 def donnee():
-    with open("conf.json", "r") as f:
+    with open("json/conf.json", "r") as f:
         data = json.load(f)
     cles_fichiers = {}
     hashmap = {}
@@ -17,7 +17,7 @@ def donnee():
     
     i = 0
 
-    for fichier in glob.glob("*.csv"):
+    for fichier in glob.glob("csv/*.csv"):
         if fichier in data and data[fichier]:
             final = []
             resFinal = []
@@ -44,12 +44,11 @@ def donnee():
 
 
 def ajoutJson():
-    with open("conf.json", "r") as f:
+    with open("json/conf.json", "r") as f:
         data = json.load(f)
 
     cbon = False  
-
-    for fichier in glob.glob("*.csv"):
+    for fichier in glob.glob("csv/*.csv"):
         
         if fichier in data and data[fichier]:
             print(fichier + " : good")
@@ -59,7 +58,6 @@ def ajoutJson():
             try:
                     
                 with open(fichier, "r", encoding="utf-8-sig") as csv_file:
-
                     
                     lecteur = csv.reader(csv_file, delimiter=";")
                     colonnes = next(lecteur)
@@ -80,7 +78,7 @@ def ajoutJson():
                         elif col in dataDepartement:
                             data[fichier][col] = "[T_DEPARTEMENT_DEP:DEP_LIB]"
                         
-                        elif col in ["lib_risque_jo", "lib_risques", "LIBELLE RISQUE 1", "LIBELLE RISQUE 2", "LIBELLE RISQUE 3", "lib_pol"]:
+                        elif col in dataRisque:
                             data[fichier][col] = "[T_TYPE_TYP:TYP_LIB]"
                             
                         elif col in dataDateDeb:
@@ -98,14 +96,14 @@ def ajoutJson():
                     print("Impossible de lire " + fichier)
 
     if cbon:
-        with open("conf.json", "w") as f:
+        with open("json/conf.json", "w") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
         print("reussie")
 
 
 ajoutJson()
 a = donnee()
-for fichier in glob.glob("*.csv"):
+for fichier in glob.glob("csv/*.csv"):
     if fichier in a:
         print()
         print(fichier,end=" : \n\n")
