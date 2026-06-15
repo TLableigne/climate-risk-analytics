@@ -2,29 +2,29 @@ import json
 import glob
 import csv
 
-dataCommune = ["lib_commune", "NOM COMMUNE"]
+dataCommune = ["lib_commune", "NOM COMMUNE", "NOM_USUEL"]
 dataDepartement = ["lib_zone", "NOM DEPARTEMENT"]
 dataRisque = ["lib_risque_jo", "lib_risques", "LIBELLE RISQUE 1", "LIBELLE RISQUE 2", "LIBELLE RISQUE 3", "lib_pol"]
-dataDateDeb = ["dat_deb", "dat_program_deb", "PRESCRIPTION", "date_ech"]
+dataDateDeb = ["dat_deb", "dat_program_deb", "PRESCRIPTION", "date_ech", "AAAAMMJJ"]
 dataDateFin = ["dat_fin", "dat_program_fin", "ANNULATION", "ABROGATION", "date_dif"]
 
 def donnee():
     with open("conf.json", "r") as f:
         data = json.load(f)
-
     cles_fichiers = {}
+    hashmap = {}
     tableauCSV = []
-    resFinal = []
+    
     i = 0
 
     for fichier in glob.glob("*.csv"):
         if fichier in data and data[fichier]:
             final = []
-
+            resFinal = []
+            
             print("\n"+ fichier + " :" +"\n")
 
             tableauCSV.append(fichier)
-
 
             cles_fichiers[fichier] = list(data[fichier].keys())
             
@@ -35,10 +35,11 @@ def donnee():
                 final.append(divise)
                 print(att[y] + " :", end=" ")
                 print(final[y])
-                resFinal.append([cle]+final[y])
+                resFinal.append(list([cle] + final[y]))
+                hashmap[fichier] = resFinal
             i = i + 1
 
-    return resFinal
+    return hashmap
 
 
 
@@ -54,7 +55,7 @@ def ajoutJson():
             print(fichier + " : good")
             
         else:
-            print(fichier + " : add", end=" ")
+            print(fichier + " : add")
             try:
                     
                 with open(fichier, "r", encoding="utf-8-sig") as csv_file:
@@ -103,4 +104,16 @@ def ajoutJson():
 
 
 ajoutJson()
-print(donnee())
+a = donnee()
+for fichier in glob.glob("*.csv"):
+    if fichier in a:
+        print()
+        print(fichier,end=" : \n\n")
+        for y,lien in enumerate(a[fichier]):
+            print(a[fichier][y], end=" : ")
+            for i,att in enumerate(a[fichier][y]):
+                print(a[fichier][y][i], end= " ")
+            print()
+    else:
+        print()
+        print(fichier + " : n'est pas dans conf.json")
