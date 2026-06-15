@@ -97,11 +97,11 @@
             dataset1.Size = new Size(236, 23);
             dataset1.TabIndex = 4;
             dataset1.Text = "Veuillez sélectionner un set de données";
+            dataset1.SelectedIndexChanged += dataset1_SelectedIndexChanged;
             // 
             // dataset2
             // 
             dataset2.FormattingEnabled = true;
-            dataset2.Items.AddRange(new object[] { "Option A", "Option B", "Option C" });
             dataset2.Location = new Point(101, 215);
             dataset2.Name = "dataset2";
             dataset2.Size = new Size(236, 23);
@@ -111,7 +111,7 @@
             // graphicType
             // 
             graphicType.FormattingEnabled = true;
-            graphicType.Items.AddRange(new object[] { "Nuage de points", "Boite à moustaches" });
+            graphicType.Items.AddRange(new object[] { "Boite à moustaches", "Nuage de points", "Diagramme en étoile" });
             graphicType.Location = new Point(482, 166);
             graphicType.Name = "graphicType";
             graphicType.Size = new Size(258, 23);

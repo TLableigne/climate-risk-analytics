@@ -10,10 +10,10 @@ namespace Aqui_Alerts
     public static class Constants
     {
         public static readonly Color colorBackground = Color.FromArgb(255, 120, 2, 30);
-        public static string pythonScriptPath = @"\\iut.bx\Etudiants\Home\lleguennec\Documents\Projet\s2.04-05\pythonScripts";
-        public static string scriptGraphicName = "choosenGraph.py";
+        public static string pythonScriptPath = @"Z:\Documents\Projet\s2.04-05\pythonScripts";
+        public static string scriptGraphicName = @"Z:\Documents\Projet\s2.04-05\pythonScripts\choosenGraph.py";
         public static string scriptImportName = "temp.py";
-        public static string scriptDataSetCollectionName = @"\\iut.bx\Etudiants\Home\lleguennec\Documents\Projet\s2.04-05\pythonScripts\dataSetCollection.py";
+        public static string scriptDataSetCollectionName = @"Z:\Documents\Projet\s2.04-05\pythonScripts\dataSetCollection.py";
         public static Process GenerateCmd()
         {
             Process cmd = new Process();

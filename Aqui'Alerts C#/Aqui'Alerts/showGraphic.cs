@@ -17,17 +17,24 @@ namespace Aqui_Alerts
             InitializeComponent();
             this.BackColor = Constants.colorBackground;
             titleAquiAlerts.BackColor = Constants.colorBackground;
-            pictureLogo.Image = Image.FromFile(@"\\iut.bx\Etudiants\Home\lleguennec\Documents\Projet\s2.04-05\pythonScripts\img\Logo.png");
+
+            using (var stream = new System.IO.FileStream(
+                @"\\iut.bx\Etudiants\Home\lleguennec\Documents\Projet\s2.04-05\pythonScripts\img\Logo.png",
+                System.IO.FileMode.Open,
+                System.IO.FileAccess.Read))
+            {
+                pictureLogo.Image = Image.FromStream(stream);
+            }
             pictureLogo.SizeMode = PictureBoxSizeMode.Zoom;
 
-            pictureGraphic.Image = Image.FromFile(@"\\iut.bx\Etudiants\Home\lleguennec\Documents\Projet\s2.04-05\pythonScripts\img\Graph.png");
+            using (var stream = new System.IO.FileStream(
+                @"\\iut.bx\Etudiants\Home\lleguennec\Documents\Projet\s2.04-05\pythonScripts\img\Graph.png",
+                System.IO.FileMode.Open,
+                System.IO.FileAccess.Read))
+            {
+                pictureGraphic.Image = Image.FromStream(stream);
+            }
             pictureGraphic.SizeMode = PictureBoxSizeMode.Zoom;
-            /*
-             * Test permettant d'afficher correctement une image avec la pictureBox
-            pictureGraphic.Image = Image.FromFile(@"\\iut.bx\Etudiants\Home\lleguennec\Downloads\Gemini_Generated_Image_nr6hqxnr6hqxnr6h.png");
-            pictureGraphic.BackColor = Color.White;
-            pictureGraphic.SizeMode = PictureBoxSizeMode.StretchImage; Normal/Zoom/Autosize/StretchImage sont les différents moyen d'affichage
-            */
         }
 
         private void buttonQuit_Click(object sender, EventArgs e)
