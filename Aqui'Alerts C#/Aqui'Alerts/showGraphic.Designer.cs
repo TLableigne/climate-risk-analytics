@@ -32,6 +32,7 @@
             informationLabel = new Label();
             pictureGraphic = new PictureBox();
             pictureLogo = new PictureBox();
+            buttonQuit = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureGraphic).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureLogo).BeginInit();
             SuspendLayout();
@@ -59,9 +60,9 @@
             // 
             // pictureGraphic
             // 
-            pictureGraphic.Location = new Point(85, 49);
+            pictureGraphic.Location = new Point(130, 49);
             pictureGraphic.Name = "pictureGraphic";
-            pictureGraphic.Size = new Size(612, 360);
+            pictureGraphic.Size = new Size(567, 380);
             pictureGraphic.TabIndex = 10;
             pictureGraphic.TabStop = false;
             // 
@@ -73,11 +74,22 @@
             pictureLogo.TabIndex = 11;
             pictureLogo.TabStop = false;
             // 
+            // buttonQuit
+            // 
+            buttonQuit.Location = new Point(12, 379);
+            buttonQuit.Name = "buttonQuit";
+            buttonQuit.Size = new Size(112, 50);
+            buttonQuit.TabIndex = 16;
+            buttonQuit.Text = "Quitter";
+            buttonQuit.UseVisualStyleBackColor = true;
+            buttonQuit.Click += buttonQuit_Click;
+            // 
             // showGraphic
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(buttonQuit);
             Controls.Add(pictureLogo);
             Controls.Add(pictureGraphic);
             Controls.Add(informationLabel);
@@ -96,5 +108,6 @@
         private Label informationLabel;
         private PictureBox pictureGraphic;
         private PictureBox pictureLogo;
+        private Button buttonQuit;
     }
 }
