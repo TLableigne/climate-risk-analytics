@@ -26,11 +26,7 @@ def getData():
     return X1, X2
 
 def choose():
-
-    print(f"Args reçus: {sys.argv}", file=sys.stderr)
-    graph_name = sys.argv[4]
-    print(f"graph_name: '{graph_name}'", file=sys.stderr)
-    print(f"chooseName[1]: '{chooseName[1]}'", file=sys.stderr)
+    graph_name = sys.argv[4]    
     
     X1, X2 = getData()
     
