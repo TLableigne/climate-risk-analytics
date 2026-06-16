@@ -1,93 +1,331 @@
-# S2.04-05
+# Aqui'Alerts — README
 
+Projet SAÉ 2.04 & 2.05 — Visualisation des risques naturels en Nouvelle-Aquitaine  
+Équipe : C. Jenipan, L. Leguennec, L. Ganchegui, T. Lableigne, A. Styzinski, L. Boinard
 
+---
 
-## Getting started
+## Contexte
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Aqui'Alerts est une application WinForms (C#) couplée à des scripts Python permettant d'importer, stocker et visualiser des données historiques sur les risques naturels en Nouvelle-Aquitaine à partir de données publiques.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+L'objectif est de permettre aux habitants de la région de mieux comprendre les risques naturels auxquels ils sont exposés et de les garder en mémoire à travers des graphiques et des cartes interactives.
 
-## Add your files
+---
 
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+## Architecture du projet
 
 ```
-cd existing_repo
-git remote add origin https://gitlab-ce.iut.u-bordeaux.fr/semestre_2/s2.04-05.git
-git branch -M main
-git push -uf origin main
+projet/
+├── pythonScripts/
+│   ├── choosenGraph.py          # Point d'entrée principal — génération de graphiques
+│   ├── boxplot.py               # Graphique : boîte à moustaches
+│   ├── radarChart.py            # Graphique : diagramme en étoile (radar)
+│   ├── scatterPlot.py           # Graphique : nuage de points
+│   ├── dataSetCollection.py     # Récupération des types de mesures depuis la BDD
+│   ├── lecteurJson.py           # Import et mapping de fichiers CSV vers la BDD
+│   ├── conf.json                # Configuration de mapping colonnes CSV → tables SQL
+│   └── img/
+│       ├── Graph.png            # Graphique généré (écrasé à chaque génération)
+│       └── Logo.png             # Logo de l'application
+├── AquiAlerts/                  # Application C# WinForms
+│   ├── Main.cs / Main.Designer.cs
+│   ├── showGraphic.cs / showGraphic.Designer.cs
+│   ├── Statistics.cs / Statistics.Designer.cs
+│   ├── Constants.cs
+│   └── Program.cs
+└── AQUIALERTS.SQL               # Script de création de la base de données SQL Server
 ```
 
-## Integrate with your tools
+---
 
-* [Set up project integrations](https://gitlab-ce.iut.u-bordeaux.fr/semestre_2/s2.04-05/-/settings/integrations)
+## Base de données
 
-## Collaborate with your team
+**Serveur :** `info-mssql-etd`  
+**Base :** `AquiAlerts`  
+**Authentification :** compte `ETD` (mot de passe : `ETD`) ou authentification Windows (`IUTBX\<login>`)
 
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+### Schéma
 
-## Test and Deploy
+| Table | Description |
+|---|---|
+| `T_DEPARTEMENT_DEP` | Départements de Nouvelle-Aquitaine |
+| `T_COMMUNE_COM` | Communes, rattachées à un département |
+| `T_TYPE_TYP` | Types de risques ou de mesures (inondation, feu…) |
+| `T_DATE_DAT` | Dates de début et durées des événements |
+| `T_MESURE_MES` | Mesures associées à une commune, un type et une date |
+| `T_RISQUE_RIS` | Risques associés à une commune, un type et une date |
 
-Use the built-in continuous integration in GitLab.
+Pour initialiser la base, exécuter le script SQL :
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
+```sql
+-- Sur SQL Server, exécuter :
+AQUIALERTS.SQL
+```
 
-***
+---
 
-# Editing this README
+## Prérequis Python
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+Python 3.x avec les librairies suivantes :
 
-## Suggestions for a good README
+```bash
+pip install pandas sqlalchemy pymssql plotly matplotlib seaborn kaleido
+```
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+---
 
-## Name
-Choose a self-explaining name for your project.
+## Scripts Python
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+### `choosenGraph.py` — Point d'entrée principal
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+Appelé par l'interface C# pour générer un graphique à partir de données SQL.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+**Usage :**
+```bash
+python choosenGraph.py <password> <query1> <query2> <graph_name>
+```
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+**Arguments :**
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+| Argument | Description |
+|---|---|
+| `password` | Mot de passe du compte `ETD` |
+| `dataset1` | Requête SQL pour le premier jeu de données |
+| `dataset2` | Requête SQL pour le second jeu de données (utilisée pour le radar) |
+| `graph_name` | Nom du graphique parmi les valeurs ci-dessous |
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+**Valeurs acceptées pour `graph_name` :**
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+| Valeur | Graphique généré |
+|---|---|
+| `Nuage de points` | Nuage de points (scatter plot) |
+| `Boite à moustaches` | Boîte à moustaches (boxplot) |
+| `Diagramme en étoile` | Diagramme radar (radar chart) |
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+**Connexion SQL :**
+- Serveur : `info-mssql-etd`
+- Utilisateur : `ETD`
+- Base : `AquiAlerts`
+- Driver : `pymssql` via SQLAlchemy
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+**Sortie :** `img/Graph.png` (écrasé à chaque appel)
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+---
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+### `scatterPlot.py` — Nuage de points
 
-## License
-For open source projects, say how it is licensed.
+Génère un nuage de points à partir de deux colonnes d'un DataFrame.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+**Fonction :**
+```python
+draw_scatterplot(X: pd.DataFrame)
+```
+
+**Format attendu :** DataFrame avec au minimum 2 colonnes — la colonne 0 devient l'axe X, la colonne 1 devient l'axe Y.
+
+**Sortie :** `img/Graph.png`
+
+**Librairies :** `matplotlib`, `numpy`
+
+**Exemple de test autonome :**
+```python
+import pandas as pd
+from scatterPlot import draw_scatterplot
+
+df = pd.DataFrame({'temperature': [12, 18, 25, 30], 'precipitations': [80, 60, 20, 10]})
+draw_scatterplot(df)
+# Résultat : img/Graph.png
+```
+---
+
+### `boxplot.py` — Boîte à moustaches
+
+Génère une boîte à moustaches pour chaque colonne du DataFrame fourni.
+
+**Fonction :**
+```python
+draw_boxplot(X: pd.DataFrame)
+```
+
+**Comportement :** génère un boxplot par colonne de `X` et sauvegarde le dernier dans `img/Graph.png`.
+
+**Librairies :** `matplotlib`, `seaborn`
+
+**Exemple de test autonome :**
+```python
+import pandas as pd
+from boxplot import draw_boxplot
+
+df = pd.DataFrame({'valeurs': [10, 20, 15, 30, 25, 5, 40]})
+draw_boxplot(df)
+# Résultat : img/Graph.png
+```
+
+---
+
+### `radarChart.py` — Diagramme en étoile (radar)
+
+Génère un diagramme radar comparant deux séries de données.
+
+**Fonction :**
+```python
+draw_radarchart(X1: pd.DataFrame, X2: pd.DataFrame)
+```
+
+**Format attendu des DataFrames :**
+
+| Colonne 0 | Colonne 1 |
+|---|---|
+| Axe (catégorie) | Valeur numérique |
+
+**Comportement :** superpose deux séries (`Série X1` et `Série X2`) sur un graphique polaire fermé et sauvegarde dans `img/Graph.png`.
+
+**Librairies :** `plotly`, `pandas`
+
+**Exemple de test autonome :**
+```python
+import pandas as pd
+from radarChart import draw_radarchart
+
+X1 = pd.DataFrame({'risque': ['Inondation', 'Feu', 'Sécheresse'], 'nb': [30, 15, 20]})
+X2 = pd.DataFrame({'risque': ['Inondation', 'Feu', 'Sécheresse'], 'nb': [10, 25, 18]})
+draw_radarchart(X1, X2)
+# Résultat : img/Graph.png
+```
+
+---
+
+### `dataSetCollection.py` — Liste des types de mesures
+
+Interroge la base de données et retourne la liste des types de mesures disponibles. Utilisé par l'interface C# pour peupler les menus déroulants.
+
+**Usage :**
+```bash
+python dataSetCollection.py
+```
+
+**Sortie :** un type de mesure par ligne, ex :
+```
+Inondation
+Feu de forêt
+Sécheresse
+```
+
+**Connexion :** `pymssql` — serveur `info-mssql-etd`, utilisateur `ETD`, base `AquiAlerts`
+
+**Requête exécutée :**
+```sql
+SELECT DISTINCT TYP_LIB
+FROM T_MESURE_MES
+INNER JOIN T_TYPE_TYP ON TYP_REF_MES = TYP_ID
+```
+
+---
+
+### `lecteurJson.py` — Import et mapping CSV
+
+Lit les fichiers CSV du dossier courant, les mappe automatiquement aux tables SQL via `conf.json`, et affiche la structure de mapping détectée.
+
+**Usage :**
+```bash
+python lecteurJson.py
+```
+
+**Fonctions internes :**
+
+`ajoutJson()` — Détecte les CSV non encore configurés et tente de mapper automatiquement leurs colonnes :
+
+| Colonne CSV détectée | Mapping SQL |
+|---|---|
+| `lib_commune`, `NOM COMMUNE` | `T_COMMUNE_COM.COM_LIB` |
+| `lib_zone`, `NOM DEPARTEMENT` | `T_DEPARTEMENT_DEP.DEP_LIB` |
+| `lib_risque_jo`, `LIBELLE RISQUE 1`… | `T_TYPE_TYP.TYP_LIB` |
+| `dat_deb`, `PRESCRIPTION`… | `T_DATE_DAT.DAT_DATE_DEB` |
+| `dat_fin`, `ANNULATION`… | `T_DATE_DAT.DATE_DUREE` |
+
+`donnee()` — Lit `conf.json` et retourne la structure de mapping sous forme de liste.
+
+**Prérequis :** un fichier `conf.json` doit exister dans le dossier courant. Les CSV doivent contenir au minimum une colonne de lieu, une colonne de risque et une colonne de date pour être acceptés.
+
+---
+
+## Authentification SQL Server
+
+### Avec compte ETD (mot de passe)
+```python
+import pymssql
+conn = pymssql.connect('info-mssql-etd', 'ETD', 'ETD', 'AquiAlerts')
+```
+
+### Avec authentification Windows (recommandé en domaine IUTBX)
+```python
+import pyodbc
+conn = pyodbc.connect(
+    "DRIVER={ODBC Driver 17 for SQL Server};"
+    "SERVER=info-mssql-etd;"
+    "DATABASE=AquiAlerts;"
+    "Trusted_Connection=yes;"
+)
+```
+
+---
+
+## Calcul de durée (DAT_DUREE)
+
+La durée est stockée directement en `smallint` dans `T_DATE_DAT.DAT_DUREE`. Pour la calculer depuis SQL Server lors d'un import :
+
+```sql
+-- Durée en jours entre date de début et date de fin
+SELECT DATEDIFF(day, DAT_DATE_DEB, date_fin_csv) AS DAT_DUREE
+FROM T_DATE_DAT
+```
+
+Côté Python, la colonne arrivera directement comme `int64` dans pandas — aucune conversion nécessaire.
+
+---
+
+## Lancement depuis l'interface C#
+
+L'application C# appelle les scripts via `cmd.exe`. Les chemins sont définis dans `Constants.cs` :
+
+```csharp
+public static string pythonScriptPath = @"\\iut.bx\Etudiants\Home\...\pythonScripts";
+public static string scriptGraphicName = "choosenGraph.py";
+public static string scriptDataSetCollectionName = @"...\dataSetCollection.py";
+```
+
+La commande générée ressemble à :
+```
+python choosenGraph.py "ETD" "SELECT ..." "SELECT ..." "Boite à moustaches"
+```
+
+---
+
+## Sources de données
+
+| Données | Source |
+|---|---|
+| Risques naturels (GASPAR) | https://www.georisques.gouv.fr/donnees/bases-de-donnees/procedures-administratives-relatives-aux-risques |
+| Données climatologiques | https://www.data.gouv.fr/datasets/donnees-climatologiques-de-base-quotidiennes |
+| Qualité de l'air | https://opendata.atmo-na.org/ |
+
+---
+
+## Niveaux de complexité des visualisations (exigés par le cahier des charges)
+
+| Niveau | Type | Script |
+|---|---|---|
+| Faible | Nuage de points | `scatterPlot.py` |
+| Modéré | Boîte à moustaches | `boxplot.py` |
+| Modéré | Diagramme en étoile | `radarChart.py` |
+| Élevé | À implémenter | — |
+
+---
+
+## Remarques connues
+
+- Les 4 boutons preset de l'interface principale (`buttonPreSet1` à `buttonPreSet4`) utilisent actuellement les mêmes paramètres — à différencier selon les jeux de données cibles.
+- `showStatistics` n'affiche pas encore de données — à connecter à la BDD.
+- Le boxplot écrase `img/Graph.png` à chaque colonne — seule la dernière colonne est visible.
+- L'encodage `"Boite à moustaches"` peut poser problème selon la configuration système Windows — vérifier la cohérence entre `Main.cs` et `choosenGraph.py`.
