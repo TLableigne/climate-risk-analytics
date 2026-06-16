@@ -207,6 +207,7 @@
             // separatorLabel
             // 
             separatorLabel.AutoSize = true;
+            separatorLabel.ForeColor = Color.White;
             separatorLabel.Location = new Point(198, 31);
             separatorLabel.Name = "separatorLabel";
             separatorLabel.Size = new Size(69, 15);

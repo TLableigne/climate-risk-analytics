@@ -1,4 +1,5 @@
     using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -41,63 +42,71 @@ namespace Aqui_Alerts
                 MessageBox.Show("Veuillez sélectionner les deux datasets et un type de graphique");
                 return;
             }
-            
-            string commandeGetQueries = $"python \"Z:\\Documents\\Projet\\s2.04-05\\pythonScripts\\get_queries.py\" \"{typLib1}\" \"{typLib2}\" \"{argumentTypeGraph}\"";
-            ProcessStartInfo psi = new ProcessStartInfo("cmd.exe")
-            {
-                Arguments = $"/c {commandeGetQueries}",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-            Process p = new Process { StartInfo = psi };
-            p.Start();
-            string stdout = p.StandardOutput.ReadToEnd();
-            string stderr = p.StandardError.ReadToEnd();
-            p.WaitForExit();                                   
 
-            string rawOutput = Constants.CmdActionWithOutput(commandeGetQueries);
+            string[] queries = GetSqlQueries(typLib1, typLib2, argumentTypeGraph);
+            if (queries == null) return;
 
-            if (string.IsNullOrEmpty(rawOutput) || rawOutput.StartsWith("ERREUR"))
+            GenerateGraphic(queries[0], queries[1], argumentTypeGraph);
+            new showGraphic().ShowDialog();
+        }
+
+        private string[] GetSqlQueries(string typLib1, string typLib2, string argumentTypeGraph)
+        {
+            string command = $"python \"{Constants.pythonScriptPath}\\get_queries.py\" \"{typLib1}\" \"{typLib2}\" \"{argumentTypeGraph}\"";
+            string output = RunProcess("cmd.exe", $"/c {command}");
+
+            if (string.IsNullOrEmpty(output) || output.StartsWith("ERREUR"))
             {
-                MessageBox.Show("Erreur lors de la génération des requêtes :\n" + rawOutput, "Erreur");
-                return;
+                MessageBox.Show("Erreur lors de la génération des requêtes :\n" + output, "Erreur");
+                return null;
             }
 
-            string[] parts = rawOutput.Split(new[] { "|||" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] parts = output.Split(new[] { "|||" }, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length < 2)
             {
-                MessageBox.Show("Impossible de récupérer les deux requêtes SQL.\n\n" + rawOutput, "Erreur");
-                return;
+                MessageBox.Show("Impossible de récupérer les deux requêtes SQL.\n\n" + output, "Erreur");
+                return null;
             }
 
-            string query1 = parts[0].Replace("\r", " ").Replace("\n", " ").Trim();
-            string query2 = parts[1].Replace("\r", " ").Replace("\n", " ").Trim();
+            return parts.Select(p => p.Replace("\r", " ").Replace("\n", " ").Trim()).ToArray();
+        }
 
-            Process cmd = Constants.GenerateCmd();
-            string commandePython = $"python {Constants.scriptGraphicName} ETD \"{query1}\" \"{query2}\" \"{argumentTypeGraph}\"";
-            Constants.CmdAction(commandePython, cmd);
+        private void GenerateGraphic(string query1, string query2, string argumentTypeGraph)
+        {
+            string graphicList = string.Join(",", graphicType.Items.Cast<object>());            
+            string args = $"/c python {Constants.scriptGraphicName} \"{query1}\" \"{query2}\" \"{argumentTypeGraph}\" \"{graphicList}\"";
+            string stderr = RunProcess("cmd.exe", args, Constants.pythonScriptPath, captureError: true);
 
+            if (!string.IsNullOrEmpty(stderr))
+                MessageBox.Show("Erreur lors de la génération du graphique :\n" + stderr, "Erreur");
+        }
 
-
-            ProcessStartInfo psi2 = new ProcessStartInfo("cmd.exe")
+        private string RunProcess(string fileName, string arguments, string workingDirectory = null, bool captureError = false)
+        {
+            var psi = new ProcessStartInfo(fileName)
             {
-                Arguments = $"/c python {Constants.scriptGraphicName} ETD \"{query1}\" \"{query2}\" \"{argumentTypeGraph}\"",
-                WorkingDirectory = Constants.pythonScriptPath,
+                Arguments = arguments,
+                WorkingDirectory = workingDirectory ?? string.Empty,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
                 CreateNoWindow = true
             };
-            Process p2 = new Process { StartInfo = psi2 };
-            p2.Start();
-            string stdout2 = p2.StandardOutput.ReadToEnd();
-            string stderr2 = p2.StandardError.ReadToEnd();
-            p2.WaitForExit();
 
-            showGraphic graphicInterface = new showGraphic();
-            graphicInterface.ShowDialog();
+            using (var process = new Process { StartInfo = psi })
+            {
+                process.Start();
+                string stdout = process.StandardOutput.ReadToEnd();
+                string stderr = process.StandardError.ReadToEnd();
+                process.WaitForExit();
+
+                return captureError ? stderr : stdout;
+            }
+        }
+
+        public override string ToString()
+        {
+            return string.Join(", ", this);
         }
 
         private void showStatsButton_Click(object sender, EventArgs e)
@@ -148,46 +157,38 @@ namespace Aqui_Alerts
 
         private void buttonPreSet1_Click(object sender, EventArgs e)
         {
-            string argumentCSV = "testDataSet.csv";
+            string query1 = "";
+            string query2 = "";
             string argumentTypeGraph = "Boite à moustaches";
-            Process cmd = Constants.GenerateCmd();
-            string commandePython = $"python {Constants.scriptGraphicName} \"{argumentCSV}\" \"{argumentTypeGraph}\"";
-            Constants.CmdAction(commandePython, cmd);
-            showGraphic graphicInterface = new showGraphic();
-            graphicInterface.ShowDialog();
+            GenerateGraphic(query1, query2, argumentTypeGraph);
+            new showGraphic().ShowDialog();
         }
 
         private void buttonPreSet2_Click(object sender, EventArgs e)
         {
-            string argumentCSV = "testDataSet.csv";
+            string query1 = "";
+            string query2 = "";
             string argumentTypeGraph = "Boite à moustaches";
-            Process cmd = Constants.GenerateCmd();
-            string commandePython = $"python {Constants.scriptGraphicName} \"{argumentCSV}\" \"{argumentTypeGraph}\"";
-            Constants.CmdAction(commandePython, cmd);
-            showGraphic graphicInterface = new showGraphic();
-            graphicInterface.ShowDialog();
+            GenerateGraphic(query1, query2, argumentTypeGraph);
+            new showGraphic().ShowDialog();
         }
 
         private void buttonPreSet3_Click(object sender, EventArgs e)
         {
-            string argumentCSV = "testDataSet.csv";
+            string query1 = "";
+            string query2 = "";
             string argumentTypeGraph = "Boite à moustaches";
-            Process cmd = Constants.GenerateCmd();
-            string commandePython = $"python {Constants.scriptGraphicName} \"{argumentCSV}\" \"{argumentTypeGraph}\"";
-            Constants.CmdAction(commandePython, cmd);
-            showGraphic graphicInterface = new showGraphic();
-            graphicInterface.ShowDialog();
+            GenerateGraphic(query1, query2, argumentTypeGraph);
+            new showGraphic().ShowDialog();
         }
 
         private void buttonPreSet4_Click(object sender, EventArgs e)
         {
-            string argumentCSV = "testDataSet.csv";
+            string query1 = "";
+            string query2 = "";
             string argumentTypeGraph = "Boite à moustaches";
-            Process cmd = Constants.GenerateCmd();
-            string commandePython = $"python {Constants.scriptGraphicName} \"{argumentCSV}\" \"{argumentTypeGraph}\"";
-            Constants.CmdAction(commandePython, cmd);
-            showGraphic graphicInterface = new showGraphic();
-            graphicInterface.ShowDialog();
+            GenerateGraphic(query1, query2, argumentTypeGraph);
+            new showGraphic().ShowDialog();
         }
 
         
