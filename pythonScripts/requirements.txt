@@ -19,7 +19,7 @@ seaborn
 plotly
 
 kaleido
- 
+statsmodels
  
 
 # Sequence 7
