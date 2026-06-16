@@ -1,8 +1,8 @@
 import sys
 import pandas as pd
 import sqlalchemy as sa
-# from histogram import draw_histogram
-# from linearRegression import draw_partial_regression
+from histogram import draw_histogram
+from linearRegression import draw_partial_regression
 from boxplot import draw_boxplot
 from radarChart import draw_radarchart
 from scatterPlot import draw_scatterplot
