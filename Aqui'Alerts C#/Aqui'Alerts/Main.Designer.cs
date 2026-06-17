@@ -111,7 +111,7 @@
             // graphicType
             // 
             graphicType.FormattingEnabled = true;
-            graphicType.Items.AddRange(new object[] { "Boite à moustaches", "Nuage de points", "Diagramme en étoile" });
+            graphicType.Items.AddRange(new object[] { "Boite a moustaches", "Nuage de points", "Diagramme en etoile" });
             graphicType.Location = new Point(482, 166);
             graphicType.Name = "graphicType";
             graphicType.Size = new Size(258, 23);
@@ -153,7 +153,7 @@
             buttonPreSet1.Name = "buttonPreSet1";
             buttonPreSet1.Size = new Size(117, 77);
             buttonPreSet1.TabIndex = 18;
-            buttonPreSet1.Text = "Test de données 1";
+            buttonPreSet1.Text = "Comparer les risques sur le littoral avec intérieur des terres";
             buttonPreSet1.UseVisualStyleBackColor = true;
             buttonPreSet1.Click += buttonPreSet1_Click;
             // 
@@ -163,7 +163,7 @@
             buttonPreSet2.Name = "buttonPreSet2";
             buttonPreSet2.Size = new Size(117, 77);
             buttonPreSet2.TabIndex = 19;
-            buttonPreSet2.Text = "Test de données 2";
+            buttonPreSet2.Text = "Comparer les communes ayant eu un un choc mécanique avec celle ayant eu une avalanche";
             buttonPreSet2.UseVisualStyleBackColor = true;
             buttonPreSet2.Click += buttonPreSet2_Click;
             // 
