@@ -8,7 +8,7 @@ from histogram import draw_histogram
 from linearRegression import draw_partial_regression
 from boxplot import draw_boxplot
 from radarChart import draw_radarchart
-from parallelCoordinates import draw_parallelCoordinates
+from parallelCoordinates import draw_parallel_coordinates
 from scatterPlot import draw_scatterplot
 
 def strip_accents(s):
@@ -44,7 +44,7 @@ def choose():
     elif "reg" in graphName:
         draw_partial_regression(X1)
     elif "parall" in graphName:
-        draw_parallelCoordinates(X1, X2)
+        draw_parallel_coordinates(X1, X2)
     else:
         print(f"Aucun graphe de ce nom matching: '{raw_graph_name}'", file=sys.stderr)
 
