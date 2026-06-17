@@ -19,7 +19,7 @@ namespace Aqui_Alerts
             titleAquiAlerts.BackColor = Constants.colorBackground;
 
             using (var stream = new System.IO.FileStream(
-                @"\\iut.bx\Etudiants\Home\lleguennec\Documents\Projet\s2.04-05\pythonScripts\img\Logo.png",
+                Constants.logoImgPath,
                 System.IO.FileMode.Open,
                 System.IO.FileAccess.Read))
             {
@@ -28,7 +28,7 @@ namespace Aqui_Alerts
             pictureLogo.SizeMode = PictureBoxSizeMode.Zoom;
 
             using (var stream = new System.IO.FileStream(
-                @"\\iut.bx\Etudiants\Home\lleguennec\Documents\Projet\s2.04-05\pythonScripts\img\Graph.png",
+                Constants.graphImgPath,
                 System.IO.FileMode.Open,
                 System.IO.FileAccess.Read))
             {

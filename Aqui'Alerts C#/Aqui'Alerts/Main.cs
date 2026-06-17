@@ -52,15 +52,13 @@ namespace Aqui_Alerts
 
         private string[] GetSqlQueries(string typLib1, string typLib2, string argumentTypeGraph)
         {
-            string command = $"python \"{Constants.pythonScriptPath}\\get_queries.py\" \"{typLib1}\" \"{typLib2}\" \"{argumentTypeGraph}\"";
-            string output = RunProcess("cmd.exe", $"/c {command}");
-
+            string command = $"python \"{Constants.pythonScriptGetQueries}\" \"{typLib1}\" \"{typLib2}\" \"{argumentTypeGraph}\"";
+            string output = RunProcess("cmd.exe", $"/c {command}");            
             if (string.IsNullOrEmpty(output) || output.StartsWith("ERREUR"))
             {
                 MessageBox.Show("Erreur lors de la génération des requêtes :\n" + output, "Erreur");
                 return null;
             }
-
             string[] parts = output.Split(new[] { "|||" }, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length < 2)
             {
@@ -75,6 +73,7 @@ namespace Aqui_Alerts
         {
             string graphicList = string.Join(",", graphicType.Items.Cast<object>());            
             string args = $"/c python {Constants.scriptGraphicName} \"{query1}\" \"{query2}\" \"{argumentTypeGraph}\" \"{graphicList}\"";
+            MessageBox.Show(args);
             string stderr = RunProcess("cmd.exe", args, Constants.pythonScriptPath, captureError: true);
 
             if (!string.IsNullOrEmpty(stderr))
@@ -157,18 +156,22 @@ namespace Aqui_Alerts
 
         private void buttonPreSet1_Click(object sender, EventArgs e)
         {
-            string query1 = "";
-            string query2 = "";
-            string argumentTypeGraph = "Boite à moustaches";
+            // Le profil des risques sur le Littoral
+            string query1 = "SELECT T.TYP_LIB AS [Type de risque], COUNT(R.ID_RIS) AS [Nombre d'évenements] FROM T_RISQUE_RIS R JOIN T_COMMUNE_COM C ON C.COM_ID = R.COM_REF_RIS JOIN T_DEPARTEMENT_DEP DEP ON DEP.DEP_ID = C.DEP_REF_COM JOIN T_TYPE_TYP T ON T.TYP_ID = R.TYP_REF_RIS WHERE DEP.DEP_LIB IN ('Charente-Maritime', 'Gironde', 'Landes') GROUP BY R.TYP_REF_RIS, T.TYP_LIB;";
+            // Le profil des risques à l'Intérieur des terres
+            string query2 = "SELECT T.TYP_LIB AS [Type de risque], COUNT(R.ID_RIS) AS [Nombre d'évenements] FROM T_RISQUE_RIS R JOIN T_COMMUNE_COM C ON C.COM_ID = R.COM_REF_RIS JOIN T_DEPARTEMENT_DEP DEP ON DEP.DEP_ID = C.DEP_REF_COM JOIN T_TYPE_TYP T ON T.TYP_ID = R.TYP_REF_RISWHERE DEP.DEP_LIB NOT IN ('Charente-Maritime', 'Gironde', 'Landes')GROUP BY R.TYP_REF_RIS, T.TYP_LIB;";
+            string argumentTypeGraph = "Boite a moustaches";
             GenerateGraphic(query1, query2, argumentTypeGraph);
             new showGraphic().ShowDialog();
         }
-
+        
         private void buttonPreSet2_Click(object sender, EventArgs e)
         {
-            string query1 = "";
-            string query2 = "";
-            string argumentTypeGraph = "Boite à moustaches";
+            // Communes ayant eu un choc mécanique
+            string query1 = "SELECT C.COM_LIB AS [Nom Commune] FROM T_MESURE_MES M JOIN T_COMMUNE_COM C ON C.COM_ID = M.COM_REF_MES JOIN T_TYPE_TYP T ON T.TYP_ID = M.TYP_REF_MES WHERE T.TYP_LIB LIKE 'Chocs Mécaniques%' GROUP BY C.COM_ID, C.COM_LIB;";
+            // Communes ayant eu une avalanche
+            string query2 = "SELECT C.COM_LIB AS [Nom Commune] FROM T_MESURE_MES M JOIN T_COMMUNE_COM C ON C.COM_ID = M.COM_REF_MES JOIN T_TYPE_TYP T ON T.TYP_ID = M.TYP_REF_MES WHERE T.TYP_LIB LIKE 'Avalanche' GROUP BY C.COM_ID, C.COM_LIB; ";
+            string argumentTypeGraph = "Boite a moustaches";
             GenerateGraphic(query1, query2, argumentTypeGraph);
             new showGraphic().ShowDialog();
         }
@@ -177,7 +180,7 @@ namespace Aqui_Alerts
         {
             string query1 = "";
             string query2 = "";
-            string argumentTypeGraph = "Boite à moustaches";
+            string argumentTypeGraph = "Boite a moustaches";
             GenerateGraphic(query1, query2, argumentTypeGraph);
             new showGraphic().ShowDialog();
         }
@@ -186,7 +189,7 @@ namespace Aqui_Alerts
         {
             string query1 = "";
             string query2 = "";
-            string argumentTypeGraph = "Boite à moustaches";
+            string argumentTypeGraph = "Boite a moustaches";
             GenerateGraphic(query1, query2, argumentTypeGraph);
             new showGraphic().ShowDialog();
         }
