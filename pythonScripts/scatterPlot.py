@@ -12,9 +12,9 @@ def draw_scatterplot(X1, X2):
         col2 = X.columns[1]
 
         ax = axes[i]
-        ax.scatter(X[col1], X[col2], alpha=1)
-        # ax.set_xlabel(col1)
-        # ax.set_ylabel(col2)
+        ax.scatter(X[col1], X[col2], alpha=0.7)
+        ax.set_xlabel(col1)
+        ax.set_ylabel(col2)
         ax.grid()
     plt.savefig('img/Graph.png')
     plt.close()
