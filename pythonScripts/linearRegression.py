@@ -3,6 +3,10 @@ import pandas as pd
 import seaborn as sns
 import statsmodels.api as sm
 import sys
+import os
+current_folder = os.path.dirname(os.path.abspath(__file__))
+packages_path = os.path.join(current_folder, "lib", "site-packages")
+sys.path.append(packages_path)
 
 def draw_partial_regression(X: pd.DataFrame):
     """

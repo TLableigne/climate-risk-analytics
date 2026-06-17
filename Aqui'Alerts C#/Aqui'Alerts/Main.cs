@@ -16,13 +16,11 @@ namespace Aqui_Alerts
             InitializeComponent();
             this.BackColor = Constants.colorBackground;
             titleAquiAlerts.BackColor = Constants.colorBackground;
-            pictureLogo.Image = Image.FromFile(@"\\iut.bx\Etudiants\Home\lleguennec\Documents\Projet\s2.04-05\pythonScripts\img\Logo.png");
+            pictureLogo.Image = Image.FromFile(Constants.logoImgPath);
             pictureLogo.SizeMode = PictureBoxSizeMode.Zoom;
             defaultAndCustomInitAndClick(true);
-            Process cmd = Constants.GenerateCmd();
-            string commandePythonComboBox = $"python {Constants.scriptDataSetCollectionName}";
-            Constants.CmdAction(commandePythonComboBox, cmd);
-            string rawOutput = Constants.CmdActionWithOutput(commandePythonComboBox);
+            string arguments = $"\"{Constants.scriptDataSetCollectionName}\"";
+            string rawOutput = Constants.CmdActionWithOutput("python", arguments);
             List<string> dataSetCollection = new List<string>(rawOutput.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries));
             dataset1.Items.Clear();
             foreach (string dataset in dataSetCollection)
@@ -36,24 +34,22 @@ namespace Aqui_Alerts
             string typLib1 = dataset1.Text;
             string typLib2 = dataset2.Text;
             string argumentTypeGraph = graphicType.Text;
-
             if (string.IsNullOrEmpty(typLib1) || string.IsNullOrEmpty(typLib2) || string.IsNullOrEmpty(argumentTypeGraph))
             {
                 MessageBox.Show("Veuillez sélectionner les deux datasets et un type de graphique");
                 return;
             }
-
             string[] queries = GetSqlQueries(typLib1, typLib2, argumentTypeGraph);
             if (queries == null) return;
-
             GenerateGraphic(queries[0], queries[1], argumentTypeGraph);
             new showGraphic().ShowDialog();
         }
 
         private string[] GetSqlQueries(string typLib1, string typLib2, string argumentTypeGraph)
         {
-            string command = $"python \"{Constants.pythonScriptGetQueries}\" \"{typLib1}\" \"{typLib2}\" \"{argumentTypeGraph}\"";
-            string output = RunProcess("cmd.exe", $"/c {command}");            
+            string command = $"python \"{Constants.pythonScriptPath}\\get_queries.py\" \"{typLib1}\" \"{typLib2}\" \"{argumentTypeGraph}\"";
+            string output = RunProcess("cmd.exe", $"/c {command}");
+
             if (string.IsNullOrEmpty(output) || output.StartsWith("ERREUR"))
             {
                 MessageBox.Show("Erreur lors de la génération des requêtes :\n" + output, "Erreur");
@@ -73,7 +69,6 @@ namespace Aqui_Alerts
         {
             string graphicList = string.Join(",", graphicType.Items.Cast<object>());            
             string args = $"/c python {Constants.scriptGraphicName} \"{query1}\" \"{query2}\" \"{argumentTypeGraph}\" \"{graphicList}\"";
-            MessageBox.Show(args);
             string stderr = RunProcess("cmd.exe", args, Constants.pythonScriptPath, captureError: true);
 
             if (!string.IsNullOrEmpty(stderr))
@@ -91,7 +86,6 @@ namespace Aqui_Alerts
                 UseShellExecute = false,
                 CreateNoWindow = true
             };
-
             using (var process = new Process { StartInfo = psi })
             {
                 process.Start();
@@ -110,8 +104,18 @@ namespace Aqui_Alerts
 
         private void showStatsButton_Click(object sender, EventArgs e)
         {
-            showStatistics statisticsInterface = new showStatistics();
-            statisticsInterface.ShowDialog();
+            string typLib1 = dataset1.Text;
+            string typLib2 = dataset2.Text;
+            string argumentTypeGraph = "Regression lineaire";
+            if (string.IsNullOrEmpty(typLib1) || string.IsNullOrEmpty(typLib2) || string.IsNullOrEmpty(argumentTypeGraph))
+            {
+                MessageBox.Show("Veuillez sélectionner les deux datasets et un type de graphique");
+                return;
+            }
+            string[] queries = GetSqlQueries(typLib1, typLib2, argumentTypeGraph);
+            if (queries == null) return;
+            GenerateGraphic(queries[0], queries[1], argumentTypeGraph);
+            new showGraphic().ShowDialog();
         }
 
         private void defaultButton_Click(object sender, EventArgs e)
@@ -156,22 +160,18 @@ namespace Aqui_Alerts
 
         private void buttonPreSet1_Click(object sender, EventArgs e)
         {
-            // Le profil des risques sur le Littoral
-            string query1 = "SELECT T.TYP_LIB AS [Type de risque], COUNT(R.ID_RIS) AS [Nombre d'évenements] FROM T_RISQUE_RIS R JOIN T_COMMUNE_COM C ON C.COM_ID = R.COM_REF_RIS JOIN T_DEPARTEMENT_DEP DEP ON DEP.DEP_ID = C.DEP_REF_COM JOIN T_TYPE_TYP T ON T.TYP_ID = R.TYP_REF_RIS WHERE DEP.DEP_LIB IN ('Charente-Maritime', 'Gironde', 'Landes') GROUP BY R.TYP_REF_RIS, T.TYP_LIB;";
-            // Le profil des risques à l'Intérieur des terres
-            string query2 = "SELECT T.TYP_LIB AS [Type de risque], COUNT(R.ID_RIS) AS [Nombre d'évenements] FROM T_RISQUE_RIS R JOIN T_COMMUNE_COM C ON C.COM_ID = R.COM_REF_RIS JOIN T_DEPARTEMENT_DEP DEP ON DEP.DEP_ID = C.DEP_REF_COM JOIN T_TYPE_TYP T ON T.TYP_ID = R.TYP_REF_RISWHERE DEP.DEP_LIB NOT IN ('Charente-Maritime', 'Gironde', 'Landes')GROUP BY R.TYP_REF_RIS, T.TYP_LIB;";
-            string argumentTypeGraph = "Boite a moustaches";
+            string query1 = "";
+            string query2 = "";
+            string argumentTypeGraph = "Boite à moustaches";
             GenerateGraphic(query1, query2, argumentTypeGraph);
             new showGraphic().ShowDialog();
         }
         
         private void buttonPreSet2_Click(object sender, EventArgs e)
         {
-            // Communes ayant eu un choc mécanique
-            string query1 = "SELECT C.COM_LIB AS [Nom Commune] FROM T_MESURE_MES M JOIN T_COMMUNE_COM C ON C.COM_ID = M.COM_REF_MES JOIN T_TYPE_TYP T ON T.TYP_ID = M.TYP_REF_MES WHERE T.TYP_LIB LIKE 'Chocs Mécaniques%' GROUP BY C.COM_ID, C.COM_LIB;";
-            // Communes ayant eu une avalanche
-            string query2 = "SELECT C.COM_LIB AS [Nom Commune] FROM T_MESURE_MES M JOIN T_COMMUNE_COM C ON C.COM_ID = M.COM_REF_MES JOIN T_TYPE_TYP T ON T.TYP_ID = M.TYP_REF_MES WHERE T.TYP_LIB LIKE 'Avalanche' GROUP BY C.COM_ID, C.COM_LIB; ";
-            string argumentTypeGraph = "Boite a moustaches";
+            string query1 = "";
+            string query2 = "";
+            string argumentTypeGraph = "Boite à moustaches";
             GenerateGraphic(query1, query2, argumentTypeGraph);
             new showGraphic().ShowDialog();
         }
@@ -180,7 +180,7 @@ namespace Aqui_Alerts
         {
             string query1 = "";
             string query2 = "";
-            string argumentTypeGraph = "Boite a moustaches";
+            string argumentTypeGraph = "Boite à moustaches";
             GenerateGraphic(query1, query2, argumentTypeGraph);
             new showGraphic().ShowDialog();
         }
@@ -189,7 +189,7 @@ namespace Aqui_Alerts
         {
             string query1 = "";
             string query2 = "";
-            string argumentTypeGraph = "Boite a moustaches";
+            string argumentTypeGraph = "Boite à moustaches";
             GenerateGraphic(query1, query2, argumentTypeGraph);
             new showGraphic().ShowDialog();
         }
@@ -205,8 +205,8 @@ namespace Aqui_Alerts
                 string commandePythonImport = $"python {Constants.scriptImportName} \"{openFileDialog.FileName}\" ?\"{separatorTextBox.Text}\"";
                 Constants.CmdAction(commandePythonImport, cmd);
 
-                string commandePythonComboBox = $"python {Constants.scriptDataSetCollectionName}";
-                string rawOutput = Constants.CmdActionWithOutput(commandePythonComboBox);
+                string arguments = $"\"{Constants.scriptDataSetCollectionName}\"";
+                string rawOutput = Constants.CmdActionWithOutput("python", arguments);
                 List<string> dataSetCollection = new List<string>(rawOutput.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries));
                 
                 dataset1.Items.Clear();
@@ -219,13 +219,12 @@ namespace Aqui_Alerts
 
         private void dataset1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string typLibSelected = dataset1.Text;
-            string commandePython = $"python \"Z:\\Documents\\Projet\\s2.04-05\\pythonScripts\\commonDataset.py\" \"{typLibSelected}\"";
-            string rawOutput = Constants.CmdActionWithOutput(commandePython);
-
+            string typLibSelected = dataset1.Text;            
+            string arguments = $"\"{Constants.scriptDataSetCollectionName}\" \"{typLibSelected}\"";
+            string rawOutput = Constants.CmdActionWithOutput("python", arguments);
             List<string> coherentDatasets = new List<string>(
                 rawOutput.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
-            );            
+            );
             dataset2.Items.Clear();
             foreach (string ds in coherentDatasets)
             {

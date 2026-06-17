@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing; 
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms; 
 
 namespace Aqui_Alerts
 {
@@ -48,15 +51,15 @@ namespace Aqui_Alerts
             }
         }
 
-        public static string CmdActionWithOutput(string command)
+        public static string CmdActionWithOutput(string fileName, string arguments)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
-                FileName = "cmd.exe",
-                Arguments = $"/c {command}",
-                RedirectStandardOutput = true, 
+                FileName = fileName, 
+                Arguments = arguments,
+                RedirectStandardOutput = true,
                 RedirectStandardError = true,
-                UseShellExecute = false,       
+                UseShellExecute = false,
                 CreateNoWindow = true
             };
 
@@ -64,8 +67,12 @@ namespace Aqui_Alerts
             {
                 process.Start();
                 string output = process.StandardOutput.ReadToEnd();
-
+                string error = process.StandardError.ReadToEnd(); 
                 process.WaitForExit();
+                if (!string.IsNullOrEmpty(error) && error.Contains("Traceback"))
+                {
+                    MessageBox.Show("Erreur Python :\n" + error, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 return output;
             }
         }
