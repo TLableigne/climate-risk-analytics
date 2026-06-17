@@ -7,8 +7,5 @@
     <Compile Update="showGraphic.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Statistics.cs">
-      <SubType>Form</SubType>
-    </Compile>
   </ItemGroup>
 </Project>

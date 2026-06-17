@@ -6,7 +6,6 @@ Z:\Documents\Projet\s2.04-05\Aqui'Alerts C#\Aqui'Alerts\bin\Debug\net8.0-windows
 Z:\Documents\Projet\s2.04-05\Aqui'Alerts C#\Aqui'Alerts\obj\Debug\net8.0-windows\Aqui_Alerts.AquiAlerts.resources
 Z:\Documents\Projet\s2.04-05\Aqui'Alerts C#\Aqui'Alerts\obj\Debug\net8.0-windows\Aqui_Alerts.Properties.Resources.resources
 Z:\Documents\Projet\s2.04-05\Aqui'Alerts C#\Aqui'Alerts\obj\Debug\net8.0-windows\Aqui_Alerts.showGraphic.resources
-Z:\Documents\Projet\s2.04-05\Aqui'Alerts C#\Aqui'Alerts\obj\Debug\net8.0-windows\Aqui_Alerts.showStatistics.resources
 Z:\Documents\Projet\s2.04-05\Aqui'Alerts C#\Aqui'Alerts\obj\Debug\net8.0-windows\Aqui'Alerts.csproj.GenerateResource.cache
 Z:\Documents\Projet\s2.04-05\Aqui'Alerts C#\Aqui'Alerts\obj\Debug\net8.0-windows\Aqui'Alerts.GeneratedMSBuildEditorConfig.editorconfig
 Z:\Documents\Projet\s2.04-05\Aqui'Alerts C#\Aqui'Alerts\obj\Debug\net8.0-windows\Aqui'Alerts.AssemblyInfoInputs.cache

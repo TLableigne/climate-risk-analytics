@@ -84,7 +84,7 @@
             showStatsButton.Name = "showStatsButton";
             showStatsButton.Size = new Size(174, 56);
             showStatsButton.TabIndex = 3;
-            showStatsButton.Text = "Afficher les données statistiques";
+            showStatsButton.Text = "Régression Linéaire";
             showStatsButton.UseVisualStyleBackColor = true;
             showStatsButton.Click += showStatsButton_Click;
             // 
@@ -111,7 +111,7 @@
             // graphicType
             // 
             graphicType.FormattingEnabled = true;
-            graphicType.Items.AddRange(new object[] { "Boite a moustaches", "Nuage de points", "Diagramme en etoile" });
+            graphicType.Items.AddRange(new object[] { "Boite a moustaches", "Nuage de points", "Diagramme en etoile", "Histogramme", "Coordonnees paralleles" });
             graphicType.Location = new Point(482, 166);
             graphicType.Name = "graphicType";
             graphicType.Size = new Size(258, 23);
@@ -203,6 +203,7 @@
             separatorTextBox.Name = "separatorTextBox";
             separatorTextBox.Size = new Size(100, 23);
             separatorTextBox.TabIndex = 23;
+            separatorTextBox.Text = ";";
             // 
             // separatorLabel
             // 

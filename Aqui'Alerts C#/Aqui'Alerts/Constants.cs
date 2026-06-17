@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing; 
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms; 
 
 namespace Aqui_Alerts
 {
     public static class Constants
     {
         public static readonly Color colorBackground = Color.FromArgb(255, 120, 2, 30);
+
         public static string pythonScriptPath = Path.GetFullPath(
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\..\pythonScripts\")
         );
@@ -19,6 +23,7 @@ namespace Aqui_Alerts
         public static string scriptDataSetCollectionName => Path.Combine(pythonScriptPath, "dataSetCollection.py");
         public static string logoImgPath => Path.Combine(pythonScriptPath, @"img\Logo.png");
         public static string graphImgPath => Path.Combine(pythonScriptPath, @"img\Graph.png");
+
         public static Process GenerateCmd()
         {
             Process cmd = new Process();
@@ -48,15 +53,15 @@ namespace Aqui_Alerts
             }
         }
 
-        public static string CmdActionWithOutput(string command)
+        public static string CmdActionWithOutput(string fileName, string arguments)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
-                FileName = "cmd.exe",
-                Arguments = $"/c {command}",
-                RedirectStandardOutput = true, 
+                FileName = fileName, 
+                Arguments = arguments,
+                RedirectStandardOutput = true,
                 RedirectStandardError = true,
-                UseShellExecute = false,       
+                UseShellExecute = false,
                 CreateNoWindow = true
             };
 
@@ -64,8 +69,13 @@ namespace Aqui_Alerts
             {
                 process.Start();
                 string output = process.StandardOutput.ReadToEnd();
-
+                string error = process.StandardError.ReadToEnd(); 
                 process.WaitForExit();
+                if (!string.IsNullOrEmpty(error) && error.Contains("Traceback"))
+                {
+                    MessageBox.Show("Erreur Python :\n" + error, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
                 return output;
             }
         }

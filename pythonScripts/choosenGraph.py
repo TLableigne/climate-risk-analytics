@@ -1,4 +1,8 @@
 import sys
+import os
+current_folder = os.path.dirname(os.path.abspath(__file__))
+packages_path = os.path.join(current_folder, "lib", "site-packages")
+sys.path.append(packages_path)
 import unicodedata
 import pandas as pd
 import sqlalchemy as sa
@@ -20,7 +24,7 @@ def choose():
     query2 = sys.argv[2]        
     raw_graph_name = sys.argv[3]
 
-    graphName = strip_accents(raw_graph_name)  
+    graphName = strip_accents(raw_graph_name).lower().strip()
 
     server = "info-mssql-etd"
     user = "ETD" 
