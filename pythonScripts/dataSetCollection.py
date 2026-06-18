@@ -8,7 +8,7 @@ def get_mesure_types_collection():
     SERVER = 'info-mssql-etd'
     USER = 'ETD'
     PASSWORD = 'ETD'
-    DATABASE = 'AquiAlerts'
+    DATABASE = 'AquiAlertsTest'
 
     try:
         conn = ps.connect(SERVER, USER, PASSWORD, DATABASE)     

@@ -31,7 +31,7 @@
             defaultButton = new Button();
             customButton = new Button();
             showGraphicButton = new Button();
-            showStatsButton = new Button();
+            linearRegressionButton = new Button();
             dataset1 = new ComboBox();
             dataset2 = new ComboBox();
             graphicType = new ComboBox();
@@ -78,15 +78,15 @@
             showGraphicButton.UseVisualStyleBackColor = true;
             showGraphicButton.Click += showGraphicButton_Click;
             // 
-            // showStatsButton
+            // linearRegressionButton
             // 
-            showStatsButton.Location = new Point(446, 357);
-            showStatsButton.Name = "showStatsButton";
-            showStatsButton.Size = new Size(174, 56);
-            showStatsButton.TabIndex = 3;
-            showStatsButton.Text = "Régression Linéaire";
-            showStatsButton.UseVisualStyleBackColor = true;
-            showStatsButton.Click += showStatsButton_Click;
+            linearRegressionButton.Location = new Point(446, 357);
+            linearRegressionButton.Name = "linearRegressionButton";
+            linearRegressionButton.Size = new Size(174, 56);
+            linearRegressionButton.TabIndex = 3;
+            linearRegressionButton.Text = "Régression Linéaire";
+            linearRegressionButton.UseVisualStyleBackColor = true;
+            linearRegressionButton.Click += linearRegressionButton_Click;
             // 
             // dataset1
             // 
@@ -153,7 +153,7 @@
             buttonPreSet1.Name = "buttonPreSet1";
             buttonPreSet1.Size = new Size(117, 77);
             buttonPreSet1.TabIndex = 18;
-            buttonPreSet1.Text = "Comparer les risques sur le littoral avec intérieur des terres";
+            buttonPreSet1.Text = "Boite à  moustaches";
             buttonPreSet1.UseVisualStyleBackColor = true;
             buttonPreSet1.Click += buttonPreSet1_Click;
             // 
@@ -163,7 +163,7 @@
             buttonPreSet2.Name = "buttonPreSet2";
             buttonPreSet2.Size = new Size(117, 77);
             buttonPreSet2.TabIndex = 19;
-            buttonPreSet2.Text = "Comparer les communes ayant eu un un choc mécanique avec celle ayant eu une avalanche";
+            buttonPreSet2.Text = "Nuage de points";
             buttonPreSet2.UseVisualStyleBackColor = true;
             buttonPreSet2.Click += buttonPreSet2_Click;
             // 
@@ -173,7 +173,7 @@
             buttonPreSet3.Name = "buttonPreSet3";
             buttonPreSet3.Size = new Size(117, 77);
             buttonPreSet3.TabIndex = 20;
-            buttonPreSet3.Text = "Test de données 3";
+            buttonPreSet3.Text = "Diagramme en étoile";
             buttonPreSet3.UseVisualStyleBackColor = true;
             buttonPreSet3.Click += buttonPreSet3_Click;
             // 
@@ -183,7 +183,7 @@
             buttonPreSet4.Name = "buttonPreSet4";
             buttonPreSet4.Size = new Size(117, 77);
             buttonPreSet4.TabIndex = 21;
-            buttonPreSet4.Text = "Test de données 4";
+            buttonPreSet4.Text = "Histogramme";
             buttonPreSet4.UseVisualStyleBackColor = true;
             buttonPreSet4.Click += buttonPreSet4_Click;
             // 
@@ -234,7 +234,7 @@
             Controls.Add(graphicType);
             Controls.Add(dataset2);
             Controls.Add(dataset1);
-            Controls.Add(showStatsButton);
+            Controls.Add(linearRegressionButton);
             Controls.Add(showGraphicButton);
             Controls.Add(customButton);
             Controls.Add(defaultButton);
@@ -250,7 +250,7 @@
         private Button defaultButton;
         private Button customButton;
         private Button showGraphicButton;
-        private Button showStatsButton;
+        private Button linearRegressionButton;
         private ComboBox dataset1;
         private ComboBox dataset2;
         private ComboBox graphicType;

@@ -18,12 +18,12 @@ namespace Aqui_Alerts
         );
         public static string pythonScriptGetQueries => Path.Combine(pythonScriptPath, "get_queries.py");
         public static string scriptGraphicName => Path.Combine(pythonScriptPath, "choosenGraph.py");
-        public static string scriptImportName => Path.Combine(pythonScriptPath, "temp.py");
+        public static string scriptImportName => Path.Combine(pythonScriptPath, "importMain.py");
         public static string scriptDataSetCollectionName => Path.Combine(pythonScriptPath, "dataSetCollection.py");
         public static string logoImgPath => Path.Combine(pythonScriptPath, @"img\Logo.png");
         public static string graphImgPath => Path.Combine(pythonScriptPath, @"img\Graph.png");
         public static Process GenerateCmd()
-        {
+        { 
             Process cmd = new Process();
             cmd.StartInfo.FileName = "cmd.exe";
             cmd.StartInfo.WorkingDirectory = pythonScriptPath;
@@ -55,8 +55,9 @@ namespace Aqui_Alerts
         {
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
-                FileName = fileName, 
+                FileName = fileName,
                 Arguments = arguments,
+                WorkingDirectory = pythonScriptPath,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
@@ -67,8 +68,9 @@ namespace Aqui_Alerts
             {
                 process.Start();
                 string output = process.StandardOutput.ReadToEnd();
-                string error = process.StandardError.ReadToEnd(); 
+                string error = process.StandardError.ReadToEnd();
                 process.WaitForExit();
+
                 if (!string.IsNullOrEmpty(error) && error.Contains("Traceback"))
                 {
                     MessageBox.Show("Erreur Python :\n" + error, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
