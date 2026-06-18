@@ -73,6 +73,9 @@ def histogram(df: pd.DataFrame):
     plt.legend()
     plt.show()
 
+def draw_linear_regression(df: pd.DataFrame):
+    piecewiseLinearRegression(df)
+
 if __name__ == "__main__":
     # 1. Time seed
     #np.random.seed(int(time.time())) 

@@ -75,28 +75,6 @@ namespace Aqui_Alerts
             }                
         }
 
-        private string RunProcess(string fileName, string arguments, string workingDirectory = null, bool captureError = false)
-        {
-            var psi = new ProcessStartInfo(fileName)
-            {
-                Arguments = arguments,
-                WorkingDirectory = workingDirectory ?? string.Empty,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-            using (var process = new Process { StartInfo = psi })
-            {
-                process.Start();
-                string stdout = process.StandardOutput.ReadToEnd();
-                string stderr = process.StandardError.ReadToEnd();
-                process.WaitForExit();
-
-                return captureError ? stderr : stdout;
-            }
-        }
-
         public override string ToString()
         {
             return string.Join(", ", this);

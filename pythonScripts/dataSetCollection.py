@@ -1,5 +1,6 @@
 import pymssql as ps
 import pandas as pd
+import sys
 import warnings
 
 warnings.filterwarnings('ignore', category=UserWarning)
@@ -8,15 +9,15 @@ def get_mesure_types_collection():
     SERVER = 'info-mssql-etd'
     USER = 'ETD'
     PASSWORD = 'ETD'
-    DATABASE = 'AquiAlertsTest'
+    DATABASE = 'AquiAlerts'
 
     try:
         conn = ps.connect(SERVER, USER, PASSWORD, DATABASE)     
         
         query = """
-            SELECT DISTINCT TYP_LIB 
-            FROM T_MESURE_MES
-            INNER JOIN T_TYPE_TYP ON TYP_REF_MES = TYP_ID
+            SELECT TYP_LIB 
+            FROM T_TYPE_TYP
+            ORDER BY TYP_LIB
         """
               
 

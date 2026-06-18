@@ -9,7 +9,7 @@ import sqlalchemy as sa
 
 # Import your graph functions
 from histogram import draw_histogram
-from linearRegression import draw_partial_regression
+from linear import draw_linear_regression
 from boxplot import draw_boxplot
 from radarChart import draw_radarchart
 from parallelCoordinates import draw_parallel_coordinates
@@ -29,7 +29,7 @@ def choose():
     server = "info-mssql-etd"
     user = "ETD" 
     psw = "ETD"
-    database = "AquiAlertsTest"
+    database = "AquiAlerts"
     
     engine = sa.create_engine(f'mssql+pymssql://{user}:{psw}@{server}/{database}')
 
@@ -46,7 +46,7 @@ def choose():
     elif "hist" in graphName:
         draw_histogram(X1)
     elif "reg" in graphName:
-        draw_partial_regression(X1)
+        draw_linear_regression(X1)
     elif "parall" in graphName:
         draw_parallel_coordinates(X1, X2)
     else:
