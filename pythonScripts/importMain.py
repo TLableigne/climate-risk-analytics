@@ -120,9 +120,28 @@ def add_departments(connec):
                 
     print(f"[Setup] Finished. {inserted} new departments added.")
 
+def clear_entire_database(engine):
+    print("[Setup] Clearing ALL tables in the database...")
+    
+    with engine.begin() as conn:
+        conn.execute(sa.text("EXEC sp_MSForEachTable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'"))
+        
+        conn.execute(sa.text("EXEC sp_MSForEachTable 'DELETE FROM ?'"))
+        
+        conn.execute(sa.text("EXEC sp_MSForEachTable 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT ALL'"))
+        
+    print("[Setup] All tables have been completely cleared.")
 
 if __name__ == "__main__" :
     conn = connexion()
     add_departments(conn)
-    fileTreatment(sys.argv[1], conn)
-
+    if (sys.argv[3]):
+        clear_entire_database(conn)
+        fileTreatment("./csv/gaspar.zip", conn)
+        fileTreatment("./csv/atmona_alerte_01-01-25_18-06-26.csv", conn)
+        fileTreatment("./csv/atmona_expositions_None.csv", conn)
+        fileTreatment("./csv/atmona_inventaire_region.csv", conn)
+        fileTreatment("./csv/atmona_mesures_24_2025-06-18_2026-06-17.csv", conn)
+    else :
+        fileTreatment(sys.argv[1], conn)
+        
