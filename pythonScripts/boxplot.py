@@ -1,7 +1,11 @@
+"""Draws side-by-side boxplots for two data series and saves to disk."""
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+
 def draw_boxplot(X1, X2):
+    """Draw boxplots of X1 and X2 side by side and save to img/Graph.png."""
     val_col1 = X1.columns[1]
     val_col2 = X2.columns[1]
     fig, axes = plt.subplots(1, 2, figsize=(12, 5))

@@ -1,10 +1,13 @@
+"""Draws side-by-side scatter plots for two data series and saves to disk."""
+
 import matplotlib.pyplot as plt
 import pandas as pd
 
-def draw_scatterplot(X1, X2):
 
+def draw_scatterplot(X1, X2):
+    """Draw scatter plots of X1 and X2 side by side and save to img/Graph.png."""
     fig, axes = plt.subplots(1, 2, figsize=(12, 5))
-    
+
     Xs = [X1, X2]
     for i, X in enumerate(Xs):
 

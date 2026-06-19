@@ -79,8 +79,8 @@ def fileTreatment(files, conn):
 
 def connexion():    
     server   = "info-mssql-etd"
-    user     = "ETD"
-    psw      = "ETD"
+    user     = "etd11"
+    psw      = "6db7478e"
     database = "AquiAlertsTest"
     engine = sa.create_engine(f'mssql+pymssql://{user}:{psw}@{server}/{database}')
     return engine

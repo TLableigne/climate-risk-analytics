@@ -1,3 +1,9 @@
+"""CLI: fetch two SQL query results and draw the requested graph type.
+
+Usage:
+    python choosenGraph.py <query1> <query2> <graph_name> <list_of_graphs>
+"""
+
 import sys
 import os
 current_folder = os.path.dirname(os.path.abspath(__file__))
@@ -15,22 +21,34 @@ from radarChart import draw_radarchart
 from parallelCoordinates import draw_parallel_coordinates
 from scatterPlot import draw_scatterplot
 
+
 def strip_accents(s):
-   return ''.join(c for c in unicodedata.normalize('NFD', s)
-                  if unicodedata.category(c) != 'Mn')
+    """Remove accents from a string (e.g. "étoile" -> "etoile")."""
+    return ''.join(c for c in unicodedata.normalize('NFD', s)
+                   if unicodedata.category(c) != 'Mn')
+
 
 def choose():
-    query1 = sys.argv[1]        
-    query2 = sys.argv[2]        
+    """Read CLI args, query the database, and call the matching graph function.
+
+    Args (from sys.argv): query1, query2 (SQL queries for X1/X2), and
+    graph_name (matched against keywords like "boite", "radar",
+    "scatter", "hist", "reg", "parall" to pick the drawing function).
+
+    Note: DB credentials are hardcoded below — consider moving them
+    to environment variables instead.
+    """
+    query1 = sys.argv[1]
+    query2 = sys.argv[2]
     raw_graph_name = sys.argv[3]
 
     graphName = strip_accents(raw_graph_name).lower().strip()
 
     server = "info-mssql-etd"
-    user = "ETD" 
+    user = "ETD"
     psw = "ETD"
     database = "AquiAlertsTest"
-    
+
     engine = sa.create_engine(f'mssql+pymssql://{user}:{psw}@{server}/{database}')
 
     with engine.connect() as conn:
@@ -51,6 +69,7 @@ def choose():
         draw_parallel_coordinates(X1, X2)
     else:
         print(f"Aucun graphe de ce nom matching: '{raw_graph_name}'", file=sys.stderr)
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 5:

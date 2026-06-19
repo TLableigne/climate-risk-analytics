@@ -7,9 +7,9 @@ warnings.filterwarnings('ignore', category=UserWarning)
 
 def get_mesure_types_collection():
     SERVER = 'info-mssql-etd'
-    USER = 'ETD'
-    PASSWORD = 'ETD'
-    DATABASE = 'AquiAlertsTest'
+    USER = 'etd11'
+    PASSWORD = '6db7478e'
+    DATABASE = 'AquiAlerts'
 
     try:
         conn = ps.connect(SERVER, USER, PASSWORD, DATABASE)     

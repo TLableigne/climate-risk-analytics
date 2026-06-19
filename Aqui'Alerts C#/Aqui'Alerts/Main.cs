@@ -48,7 +48,7 @@ namespace Aqui_Alerts
         private string[] GetSqlQueries(string typLib1, string typLib2, string argumentTypeGraph)
         {
             string command = $"\"{Constants.pythonScriptGetQueries}\" \"{typLib1}\" \"{typLib2}\" \"{argumentTypeGraph}\"";
-            string output = Constants.CmdActionWithOutput("python", command);           
+            string output = Constants.CmdActionWithOutput("python", command);        
             if (string.IsNullOrEmpty(output) || output.StartsWith("ERREUR"))
             {
                 MessageBox.Show("Erreur lors de la génération des requêtes :\n" + output, "Erreur");
