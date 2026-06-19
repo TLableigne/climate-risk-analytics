@@ -11,12 +11,11 @@ def draw_histogram(X: pd.DataFrame):
     
     plt.figure()
     
-    sns.histplot(data=X, x=col_name, kde=True, color='blue', bins=30)
+    sns.histplot(data=X, x=col_name, color='red')
     
     plt.title(f'Histogram of {col_name}')
     plt.xlabel(col_name)
-    plt.ylabel('Frequency')
+    plt.ylabel('Occurences')
     
-    plt.tight_layout()
     plt.savefig('img/Graph.png')
     plt.close()

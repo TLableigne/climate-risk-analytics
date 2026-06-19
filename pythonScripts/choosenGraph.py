@@ -29,7 +29,7 @@ def choose():
     server = "info-mssql-etd"
     user = "ETD" 
     psw = "ETD"
-    database = "AquiAlerts"
+    database = "AquiAlertsTest"
     
     engine = sa.create_engine(f'mssql+pymssql://{user}:{psw}@{server}/{database}')
 

@@ -93,7 +93,6 @@ namespace Aqui_Alerts
             string[] queries = GetSqlQueries(typLib1, typLib2, argumentTypeGraph);
             if (queries == null) return;
             GenerateGraphic(queries[0], queries[1], argumentTypeGraph);
-            new showGraphic().ShowDialog();
         }
 
         private void defaultButton_Click(object sender, EventArgs e)
@@ -149,10 +148,9 @@ namespace Aqui_Alerts
         
         private void buttonPreSet2_Click(object sender, EventArgs e)
         {
-            // Communes ayant eu un choc mécanique
-            string query1 = "SELECT C.COM_LIB AS [Nom Commune] FROM T_MESURE_MES M JOIN T_COMMUNE_COM C ON C.COM_ID = M.COM_REF_MES JOIN T_TYPE_TYP T ON T.TYP_ID = M.TYP_REF_MES WHERE T.TYP_LIB LIKE 'Chocs Mécaniques%' GROUP BY C.COM_ID, C.COM_LIB;";
-            // Communes ayant eu une avalanche
-            string query2 = "SELECT C.COM_LIB AS [Nom Commune] FROM T_MESURE_MES M JOIN T_COMMUNE_COM C ON C.COM_ID = M.COM_REF_MES JOIN T_TYPE_TYP T ON T.TYP_ID = M.TYP_REF_MES WHERE T.TYP_LIB LIKE 'Avalanche' GROUP BY C.COM_ID, C.COM_LIB;";
+            // Nombre d'événements par Année et par Commune
+            string query1 = "SELECT MONTH(dat.DAT_DATE_DEB) AS [Mois], AVG(mes.MES_VALEUR) AS [Pluie moyenne par Mois] FROM T_MESURE_MES mes JOIN T_TYPE_TYP typ ON mes.TYP_REF_MES = typ.TYP_ID JOIN T_DATE_DAT dat ON mes.DAT_REF_MES = dat.DAT_ID JOIN T_COMMUNE_COM com ON mes.COM_REF_MES = com.COM_ID WHERE typ.TYP_LIB = 'Pluie (RR)' AND dat.DAT_DATE_DEB IS NOT NULL GROUP BY MONTH(dat.DAT_DATE_DEB), com.DEP_REF_COM ORDER BY [Mois];";
+            string query2 = "SELECT MONTH(dat.DAT_DATE_DEB) AS [Mois], COUNT(r.ID_RIS) AS [Nombre d'Inondations par Mois] FROM T_RISQUE_RIS r JOIN T_TYPE_TYP typ ON r.TYP_REF_RIS = typ.TYP_ID JOIN T_DATE_DAT dat ON r.DAT_REF_RIS = dat.DAT_ID JOIN T_COMMUNE_COM com ON r.COM_REF_RIS = com.COM_ID WHERE typ.TYP_LIB LIKE '%Inondation%' AND dat.DAT_DATE_DEB IS NOT NULL GROUP BY MONTH(dat.DAT_DATE_DEB), com.DEP_REF_COM ORDER BY [Mois];";
             string argumentTypeGraph = "Nuage de points";
             GenerateGraphic(query1, query2, argumentTypeGraph);
             new showGraphic().ShowDialog();
@@ -160,10 +158,10 @@ namespace Aqui_Alerts
 
         private void buttonPreSet3_Click(object sender, EventArgs e)
         {
-            // Risques liés à l'Excès d'Eau
-            string query1 = "SELECT DEP.DEP_LIB AS [Département], COUNT(R.ID_RIS) AS [Total de risques des eaux] FROM T_RISQUE_RIS R JOIN T_COMMUNE_COM C ON C.COM_ID = R.COM_REF_RIS JOIN T_DEPARTEMENT_DEP DEP ON DEP.DEP_ID = C.DEP_REF_COM JOIN T_TYPE_TYP T ON T.TYP_ID = R.TYP_REF_RIS WHERE T.TYP_LIB LIKE '%Inondation%' OR T.TYP_LIB LIKE 'Tempête' OR T.TYP_LIB LIKE 'Chocs Mécaniques%' GROUP BY DEP.DEP_ID, DEP.DEP_LIB ORDER BY [Total de risques des eaux] DESC;";
-            // Risques liés au Manque d'Eau et à la Chaleur
-            string query2 = "SELECT DEP.DEP_LIB AS [Departement], COUNT(R.ID_RIS) AS [Total de risques liés à la chaleur] FROM T_RISQUE_RIS R  JOIN T_COMMUNE_COM C ON C.COM_ID = R.COM_REF_RIS JOIN T_DEPARTEMENT_DEP DEP ON DEP.DEP_ID = C.DEP_REF_COM JOIN T_TYPE_TYP T ON T.TYP_ID = R.TYP_REF_RIS WHERE T.TYP_LIB LIKE 'Mouvement%' GROUP BY DEP.DEP_ID, DEP.DEP_LIB ORDER BY [Total de risques liés à la chaleur] DESC;";
+            // Pluie moyenne par Mois
+            string query1 = "SELECT DEP.DEP_LIB AS [Departement], COUNT(R.ID_RIS) AS [Nb d'evenements] FROM T_RISQUE_RIS R JOIN T_COMMUNE_COM C ON C.COM_ID = R.COM_REF_RIS JOIN T_DEPARTEMENT_DEP DEP ON DEP.DEP_ID = C.DEP_REF_COM JOIN T_TYPE_TYP T ON T.TYP_ID = R.TYP_REF_RIS WHERE T.TYP_LIB LIKE '%Inondation%' OR T.TYP_LIB LIKE 'Tempête' GROUP BY DEP.DEP_ID, DEP.DEP_LIB ORDER BY DEP.DEP_LIB;";
+            // Nombre d'Inondations par Mois
+            string query2 = "SELECT DEP.DEP_LIB AS [Departement], COUNT(R.ID_RIS) AS [Nb d'evenements] FROM T_RISQUE_RIS R JOIN T_COMMUNE_COM C ON C.COM_ID = R.COM_REF_RIS JOIN T_DEPARTEMENT_DEP DEP ON DEP.DEP_ID = C.DEP_REF_COM JOIN T_TYPE_TYP T ON T.TYP_ID = R.TYP_REF_RIS WHERE T.TYP_LIB LIKE '%Sécheresse%' OR T.TYP_LIB LIKE '%Feu%' OR T.TYP_LIB LIKE '%Mouvement de terrain%' GROUP BY DEP.DEP_ID, DEP.DEP_LIB ORDER BY DEP.DEP_LIB;";
             string argumentTypeGraph = "Diagramme en etoile";
             GenerateGraphic(query1, query2, argumentTypeGraph);
             new showGraphic().ShowDialog();
@@ -171,8 +169,9 @@ namespace Aqui_Alerts
 
         private void buttonPreSet4_Click(object sender, EventArgs e)
         {
-            string query1 = "SELECT YEAR(d.DAT_DATE_DEB) AS annee, COUNT(*) AS nb_evenements FROM T_MESURE_MES m JOIN T_DATE_DAT d ON m.DAT_REF_MES = d.DAT_ID WHERE m.TYP_REF_MES = 2 AND m.COM_REF_MES IN (24064,86020,19091,33174,64407,64279,33182,47269,64037,33065,33324,19246,33198,33071,64316,19005,19272,64204,19276,19285,19288,64094,64354,33253,64102,24040,33001,47086,33392,33138,33525, 19191,19066) GROUP BY YEAR(d.DAT_DATE_DEB)";
-            string query2 = "SELECT YEAR(d.DAT_DATE_DEB) AS annee, COUNT(*) AS nb_evenements FROM T_MESURE_MES m JOIN T_DATE_DAT d ON m.DAT_REF_MES = d.DAT_ID WHERE m.TYP_REF_MES = 4 AND m.COM_REF_MES IN (24064,86020,19091,33174,64407,64279,33182,47269,64037,33065,33324,19246,33198,33071,64316,19005,19272,64204,19276,19285,19288,64094,64354,33253,64102,24040,33001,47086,33392,33138,33525,19191,19066) GROUP BY YEAR(d.DAT_DATE_DEB) ";
+            // année de chaque d'inondations et sécheresses
+            string query1 = "SELECT YEAR(dat.DAT_DATE_DEB) AS [Année] FROM T_RISQUE_RIS r JOIN T_TYPE_TYP typ ON r.TYP_REF_RIS = typ.TYP_ID JOIN T_DATE_DAT dat ON r.DAT_REF_RIS = dat.DAT_ID WHERE typ.TYP_LIB LIKE '%Inondation%' AND dat.DAT_DATE_DEB IS NOT NULL;";
+            string query2 = "SELECT YEAR(dat.DAT_DATE_DEB) AS [Année] FROM T_RISQUE_RIS r JOIN T_TYPE_TYP typ ON r.TYP_REF_RIS = typ.TYP_ID JOIN T_DATE_DAT dat ON r.DAT_REF_RIS = dat.DAT_ID WHERE typ.TYP_LIB LIKE '%Sécheresse%' AND dat.DAT_DATE_DEB IS NOT NULL;";
             string argumentTypeGraph = "Histogramme";
             GenerateGraphic(query1, query2, argumentTypeGraph);
             new showGraphic().ShowDialog();
@@ -186,7 +185,7 @@ namespace Aqui_Alerts
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 Process cmd = Constants.GenerateCmd();
-                string commandePythonImport = $"\"{Constants.scriptImportName}\" \"{openFileDialog.FileName}\" \"{separatorTextBox.Text}\"";
+                string commandePythonImport = $"\"{Constants.scriptImportName}\" \"{openFileDialog.FileName}\" \"{separatorTextBox.Text}\" \"{false}\"";
                 string output = Constants.CmdActionWithOutput("python", commandePythonImport);
                 if (string.IsNullOrEmpty(output) || output.Contains("Format non reconnu") || separatorTextBox.Text != ";")
                 {

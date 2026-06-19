@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             titleAquiAlerts = new Label();
-            informationLabel = new Label();
             pictureGraphic = new PictureBox();
             pictureLogo = new PictureBox();
             buttonQuit = new Button();
@@ -47,16 +46,6 @@
             titleAquiAlerts.Size = new Size(162, 37);
             titleAquiAlerts.TabIndex = 8;
             titleAquiAlerts.Text = "Aqui'Alerts";
-            // 
-            // informationLabel
-            // 
-            informationLabel.AutoSize = true;
-            informationLabel.ForeColor = Color.White;
-            informationLabel.Location = new Point(343, 21);
-            informationLabel.Name = "informationLabel";
-            informationLabel.Size = new Size(109, 15);
-            informationLabel.TabIndex = 9;
-            informationLabel.Text = "infos, def et échelle";
             // 
             // pictureGraphic
             // 
@@ -92,7 +81,6 @@
             Controls.Add(buttonQuit);
             Controls.Add(pictureLogo);
             Controls.Add(pictureGraphic);
-            Controls.Add(informationLabel);
             Controls.Add(titleAquiAlerts);
             Name = "showGraphic";
             Text = "Aqui'Alerts";
@@ -105,7 +93,6 @@
         #endregion
 
         private Label titleAquiAlerts;
-        private Label informationLabel;
         private PictureBox pictureGraphic;
         private PictureBox pictureLogo;
         private Button buttonQuit;

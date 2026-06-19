@@ -23,8 +23,17 @@ def piecewiseLinearRegression(df: pd.DataFrame):
     Realize and show a piecewise linear regression based on the dataframe, 
     calculated manually using numpy (no pwlf).
     """
-    x = df['x'].values
-    y = df['y'].values
+    if df.shape[1] < 2:
+        raise ValueError(
+            f"La régression linéaire nécessite 2 colonnes (X et Y), "
+            f"mais le dataset n'en contient que {df.shape[1]} : {list(df.columns)}"
+        )
+
+    x_col, y_col = df.columns[0], df.columns[1]
+    x = df[x_col].values
+    y = df[y_col].values
+    plt.xlabel(x_col)
+    plt.ylabel(y_col)
     
     # 1. Sort using the quantiles to define the breaks
     breaks = np.unique(np.quantile(x, [0.0, 0.33, 0.66, 1.0]))
@@ -57,41 +66,5 @@ def piecewiseLinearRegression(df: pd.DataFrame):
     plt.legend()
     plt.show()
 
-def histogram(df: pd.DataFrame):
-    """
-    Affiche un histogramme pour visualiser la distribution des données générées.
-    """
-    plt.figure(figsize=(10, 6))
-    
-    plt.hist(df['x'], bins=20, color='skyblue', edgecolor='black', alpha=0.7, label='Distribution X')
-    plt.hist(df['y'], bins=20, color='lightgreen', edgecolor='black', alpha=0.7, label='Distribution Y')
-    
-    plt.title("Histogram of Variables")
-    plt.xlabel("Values")
-    plt.ylabel("Frequency")
-    plt.grid(True, alpha=0.3)
-    plt.legend()
-    plt.show()
-
 def draw_linear_regression(df: pd.DataFrame):
     piecewiseLinearRegression(df)
-
-if __name__ == "__main__":
-    # 1. Time seed
-    #np.random.seed(int(time.time())) 
-    
-    # 2. Random data generation
-    #x_data = np.random.negative_binomial(n=3, p=0.08, size=850).astype(float)
-    #y_data = np.clip(30 - (x_data * 0.5) + np.random.normal(0, 8, size=850), 0, None)
-    
-    # 3. DataFrame
-    #df = pd.DataFrame({
-    #    'x': x_data,
-    #    'y': y_data
-    #})
-    
-    #print("New DataFrame successfully generated (preview):\n", df.head())
-    
-    # CALL FUNCTIONS
-    piecewiseLinearRegression(df)
-    histogram(df)
