@@ -1,333 +1,81 @@
-# Aqui'Alerts — Python Scripts
+# Aqui'Alerts — Climate Risk Analytics & Dashboard
 
+[Version Française](README.fr.md)
 
+![Aqui'Alerts Radar Chart Dashboard](img/aqui-alerts-radar-chart.png)
+*C# WinForms dashboard displaying a Plotly polar radar chart comparing multi-department climate event distributions (`Gironde`, `Landes`, `Charente-Maritime`, etc.).*
+
+Aqui'Alerts is a comprehensive climate risk and environmental analytics platform combining a **C# .NET Windows Forms desktop application** for querying and visualization control, with a **Python data analytics backend** using Matplotlib, Seaborn, Plotly, and Pandas to generate dynamic statistical graphs and choropleth maps.
+
+---
+
+## Interface & Usage
+
+![Aqui'Alerts Main Menu](img/aqui-alerts-main-menu.png)
+*C# desktop application default preset dashboard, CSV import controls with custom delimiter, and mode switcher (`Défaut` / `Personnalisé`).*
+
+The application provides an intuitive desktop interface for operators to load regional CSV datasets, execute custom SQL queries against the underlying database, and instantly render multi-variable statistical graphs.
+
+---
+
+## Analytics & Algorithms
+
+![Piecewise Linear Regression](img/aqui-alerts-piecewise-regression.png)
+*Custom continuous piecewise linear regression algorithm implemented in pure NumPy with quantile-based breakpoints.*
+
+### Advanced Statistical Modules
+- **Piecewise Linear Regression**: Models complex non-linear ecological and climate trends by fitting segmented linear regressions across data quantiles.
+- **Comparative Statistical Gallery**:
+
+| Scatter Plot Correlation | Statistical Box Plot |
+| :---: | :---: |
+| ![Scatter Plot](img/aqui-alerts-scatter-plot.png) | ![Box Plot](img/aqui-alerts-boxplot.png) |
+| *Dual-series comparative statistical visualizations (`Série X1` vs `Série X2`) generated via the C#-to-Python pipeline.* | *Distribution analysis across multiple environmental risk indicators.* |
+
+---
 
 ## Architecture
 
-
-
+```text
+climate-risk-analytics/
+├── Aqui'Alerts C#/          # C# .NET Windows Forms desktop application
+├── Aqui'Alerts SQL/         # Database models (MCD, MLR scripts, SQL dumps)
+└── pythonScripts/           # Python data processing and chart generation scripts
+    ├── choosenGraph.py      # Main entry point (dispatcher)
+    ├── boxplot.py           # Statistical box plots
+    ├── radarChart.py        # Multi-axis radar charts
+    ├── scatterPlot.py       # Correlation scatter plots
+    ├── linearRegression.py  # Trend analysis & linear regression
+    ├── histogram.py         # Frequency distribution histograms
+    ├── parallelCoordinates.py# Multivariate parallel coordinates
+    ├── geographicPlot.py    # Choropleth risk maps
+    └── requirements.txt     # Python dependencies
 ```
 
-pythonScripts/
-├── choosenGraph.py          # Main entry point — chart generation dispatcher
-├── boxplot.py               # Chart: Box plot
-├── radarChart.py            # Chart: Radar chart (spider plot)
-├── scatterPlot.py           # Chart: Scatter plot
-├── linearRegression.py      # Chart: Linear regression
-├── histogram.py             # Chart: Histogram
-├── parallelCoordinates.py   # Chart: Parallel coordinates
-├── geographicPlot.py        # Chart: Choropleth map
-├── dataSetCollection.py     # Metric type retrieval from database
-├── lecteurJson.py           # CSV import & schema mapping to database
-├── conf.json                # Column-to-SQL table mapping configuration
-└── img/
-    ├── Graph.png            # Rendered chart (overwritten on each run)
-    └── Logo.png             # Application logo
+## Requirements (Windows)
 
-```
+To run the complete application stack on Windows:
+- **Windows 10 / 11**
+- **.NET 8.0 SDK** (for the C# Windows Forms application)
+- **Python 3.10+** (with pip)
+- **SQL Database** (MSSQL / MySQL / compatible SQL backend)
 
+## How to Start on Windows
 
+### 1. Database Setup
+Import the database schema and initial data from the `Aqui'Alerts SQL/` directory into your SQL server instance.
 
----
-
-
-
-## Prerequisites
-
-
-
-```bash
-
+### 2. Python Environment Setup
+Open Command Prompt or PowerShell in the `pythonScripts/` directory and install dependencies:
+```cmd
+cd pythonScripts
 pip install -r requirements.txt
-
 ```
 
-
-
-All scripts must be executed from the `pythonScripts/` directory. The `img/` directory must exist:
-
-
-
-```bash
-
-cd pythonScripts/
-
-mkdir -p img
-
-```
-
-
+### 3. Running the C# Desktop Application
+1. Open the C# solution in Visual Studio (`Aqui'Alerts C#/Aqui'Alerts/Aqui'Alerts.sln`).
+2. Configure your database connection string in project settings.
+3. Press `F5` to build and run the application. The C# UI will invoke the Python scripts automatically when generating analytics charts.
 
 ---
-
-
-
-## Scripts
-
-
-
-### `choosenGraph.py` — Main Entry Point
-
-
-
-Receives arguments dispatched by the C# interface and redirects execution to the corresponding visualization script. This is the only script called directly by the main application.
-
-
-
-**Usage:**
-
-```bash
-
-python3 choosenGraph.py <query1> <query2> <graph_name> <graph_names>
-
-```
-
-
-
-| Argument | Description |
-|---|---|
-| `query1` | SQL query for the primary dataset |
-| `query2` | SQL query for the secondary dataset (radar chart only) |
-| `graph_name` | Name of the chart to generate |
-| `graph_names` | Serialized list of available chart names (string) |
-
-
-
-| `graph_name` Value | Generated Chart |
-|---|---|
-| `Nuage de points` | `scatterPlot.py` |
-| `Boite à moustaches` | `boxplot.py` |
-| `Diagramme en étoile` | `radarChart.py` |
-| `Régression linéaire` | `linearRegression.py` |
-| `Histogramme` | `histogram.py` |
-| `Coordonnées parallèles` | `parallelCoordinates.py` |
-| `Carte Choroplète` | `geographicPlot.py` |
-
-
-
-**Output:** `img/Graph.png`
-
-
-
----
-
-
-
-### `scatterPlot.py` — Scatter Plot
-
-
-
-Visualizes relationships between two numerical variables. Useful for identifying correlations, such as weather metrics versus natural risk event counts.
-
-
-
-**Function:**
-
-```python
-
-draw_scatterplot(X: pd.DataFrame)
-
-```
-
-Column 0 → X-axis, Column 1 → Y-axis.
-
-
-
----
-
-
-
-### `boxplot.py` — Box Plot
-
-
-
-Displays the statistical distribution of a continuous variable (median, quartiles, extreme outliers). Allows variance comparisons across multiple risk types or event durations.
-
-
-
-**Function:**
-
-```python
-
-draw_boxplot(X: pd.DataFrame)
-
-```
-
-Generates one boxplot per column in the DataFrame.
-
-
-
----
-
-
-
-### `radarChart.py` — Radar Chart
-
-
-
-Compares two data series across multiple axes simultaneously. Suited for contrasting risk distributions between two municipalities or historical time periods.
-
-
-
-**Function:**
-
-```python
-
-draw_radarchart(X1: pd.DataFrame, X2: pd.DataFrame)
-
-```
-
-Each DataFrame must contain 2 columns: Column 0 = category (axis), Column 1 = numerical value.
-
-
-
----
-
-
-
-### `linearRegression.py` — Linear Regression
-
-
-
-Models linear relationships between two variables and assesses statistical significance. Generates the fitted line alongside a residual plot, displaying the equation, R², and p-value.
-
-
-
-**Function:**
-
-```python
-
-draw_linear_regression(df: pd.DataFrame)
-
-```
-
-Column 0 → explanatory variable X, Column 1 → dependent variable Y.
-
-
-
----
-
-
-
-### `histogram.py` — Histogram
-
-
-
-Displays the binned frequency distribution of a continuous variable. Allows visualization of event duration distributions or pollution thresholds.
-
-
-
-**Function:**
-
-```python
-
-draw_histogram(X: pd.DataFrame)
-
-```
-
-
-
----
-
-
-
-### `parallelCoordinates.py` — Parallel Coordinates
-
-
-
-Simultaneously plots multiple variables on parallel axes to identify clusters and multivariate trends. Ideal for evaluating risk profiles across numerous indicators.
-
-
-
-**Function:**
-
-```python
-
-draw_parallel_coordinates(X: pd.DataFrame)
-
-```
-
-
-
----
-
-
-
-### `geographicPlot.py` — Choropleth Map
-
-
-
-Projects regional risk indicators onto a geographic map by coloring administrative zones according to values (incident counts, average durations). Offers immediate spatial awareness across Nouvelle-Aquitaine.
-
-
-
-**Function:**
-
-```python
-
-draw_geographic_plot(X: pd.DataFrame)
-
-```
-
-
-
----
-
-
-
-### `dataSetCollection.py` — Metric Type Listing
-
-
-
-Queries the database and returns the list of available measurement categories. Used by the C# interface to populate UI dropdowns dynamically.
-
-
-
-**Usage:**
-
-```bash
-
-python dataSetCollection.py
-
-```
-
-
-
-**Output (stdout):** One measurement category per line.
-
-
-
-**Executed Query:**
-
-```sql
-
-SELECT DISTINCT TYP_LIB
-
-FROM T_MESURE_MES
-
-INNER JOIN T_TYPE_TYP ON TYP_REF_MES = TYP_ID
-
-```
-
-
----
-
-### `lecteurJson.py` — CSV Import & Mapping
-
-Scans local CSV files in the working directory, automatically parses headers, and maps them to target database tables using `conf.json`.
-
-**Usage:**
-
-```bash
-
-python lecteurJson.py
-
-```
-
-| Detected CSV Column | SQL Target Mapping |
-|---|---|
-| `lib_commune`, `NOM COMMUNE` | `T_COMMUNE_COM.COM_LIB` |
-| `lib_zone`, `NOM DEPARTEMENT` | `T_DEPARTEMENT_DEP.DEP_LIB` |
-| `lib_risque_jo`, `LIBELLE RISQUE 1`… | `T_TYPE_TYP.TYP_LIB` |
-| `dat_deb`, `PRESCRIPTION`… | `T_DATE_DAT.DAT_DATE_DEB` |
-| `dat_fin`, `ANNULATION`… | `T_DATE_DAT.DATE_DUREE` |
+**Documentation & Details:** See individual subdirectories for SQL schemas and specific Python module functions.
